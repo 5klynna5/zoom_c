@@ -1,0 +1,62 @@
+{% extends 'zoom_data/base.html' %}
+
+{% block content %}
+
+<html lang="en">
+		<head>
+			<meta charset="utf-8" />
+			<title>Table Style</title>
+			<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+		</head>
+		
+<div id = "header">
+		<a href="{% url 'home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Home Page</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1>Current Households
+<div id = "edit">
+	<a class="btn btn-default" href="{% url 'household_new' %}"><span class="glyphicon glyphicon-plus"></span> Add household</a>
+</div>
+</h1>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Household</th>		
+			<th class="text-left">Head(s) of Household</th>
+			<th class="text-left">Unit Type</th>
+			<th class="text-left">Unit Number</th>
+			<th class="text-left">Children</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for household in households %}
+		<tr>
+			<td class = "text-left">{{household}}</td>
+			<td class="text-left">
+				{% for person in household.hoh %}
+					<br><a href="{% url 'resident_detail' pk=person.pk %}">{{person}}</a><br>
+				{% endfor %}
+				<br>
+				<a class = "btn btn-default" href = "{% url 'resident_new' pk=household.pk %}"><span class="glyphicon glyphicon-plus"></span>  Add resident</a>
+			</td>
+			<td class="text-left">{{ household.unit_type }}</td>
+			<td class="text-left">{{ household.unit_num }}</td>
+			<td class="text-left">
+					{% for person in household.children %}
+						<br><a href="{% url 'child_detail' pk=person.pk %}">{{person}}</a><br>
+					{% endfor %}
+					<br>
+					<a class = "btn btn-default" href = "{% url 'child_new' pk=household.pk %}"><span class="glyphicon glyphicon-plus"></span>  Add child</a>
+			</td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+
+
+{% endblock %}

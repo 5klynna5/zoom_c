@@ -1,0 +1,41 @@
+{% extends 'zoom_data/base.html' %}
+
+{% load static %} 
+
+{% block content %}
+
+<div id = "header">
+		<a href="{% url 'household_list' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Resident Household List</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+
+<h1> Goal Progress Records </h1>
+<a class="btn btn-default" href="{% url 'add_progress' pk=goal.pk %}"><span class="glyphicon glyphicon-plus"></span> Add progress</a>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+            <th class="text-left">Date</th>
+            <th class="text-left">Percent Progress</th>
+            <th class="text-left">Notes</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+		{% for record in goal.all_progress.all %}	
+		<tr>
+            <td class="text-left"> {{record.date_progress}} </td>
+            <td class="text-left"> {{record.percent_progress}} </td>
+            <td class="text-left"> {{record.notes_progress}} </td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+</div>
+
+
+
+
+{% endblock %}

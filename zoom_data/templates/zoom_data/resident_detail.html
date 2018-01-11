@@ -1,0 +1,166 @@
+{% extends 'zoom_data/base.html' %}
+
+{% load static %} 
+
+{% block content %}
+
+<style>
+
+ .chart {
+ 	float: right;
+  line-height: 40px;
+ }
+
+
+</style>
+
+<div id = "header">
+		<a href="{% url 'household_list' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Resident Household List</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+ <h1> Basic Information
+   <div id = "edit">
+      <a class="btn btn-default" href="{% url 'resident_edit' pk=resident.pk %}"><span class="glyphicon glyphicon-pencil"></span><span>  Edit Resident Information</span></a>
+    </div>
+  </h1> 
+
+ <span class = "large-text">
+    <b> Resident Name: </b> {{resident}}
+    <br><b> Move-in Date: </b> {{resident.resident_move_in}}
+    <br><b> Health insurance: </b> {{resident.health_ins}}
+  </span>
+  <span class = "large-text"> 
+    <b> Phone: </b> {{resident.contact_preferred.resident_phone}}
+    <br><b>Email: </b> {{resident.contact_preferred.resident_email}}
+    <br><b>Contact Preferred: </b> {{resident.contact_preferred.contact_pref}}
+  </span>
+  <span class = "large-text"> 
+      <b>Race: </b> {{resident.race}} 
+      <br><b>Ethnicity: </b> {{resident.ethnicity}}
+      <br><b>Gender: </b> {{resident.gender}}
+  </span>
+
+ <h1> Goals 
+    <div id = "edit">
+        <a class="btn btn-default" href="{% url 'goal_new' pk=resident.pk %}"><span class="glyphicon glyphicon-plus"></span> Add a goal</a>
+    </div>
+</h1> 
+ <div class = "content">
+  <table class="table-fill">
+  <thead>
+    <tr>
+      <th class="text-left">Goal</th>
+      <th class="text-left">Progress</th>
+      <th class="text-left">Comments</th>
+    </tr>
+  </thead>
+
+  <tbody class="table-hover">
+  {% for goal in resident.goals %}
+    <tr>
+      <td class = "text-left"><a href="{% url 'goal_detail' pk=goal.pk %}">{{goal.goal_name}} </a></td>
+      <td class="text-left">    
+        <svg class="chart" width="500" height="30">
+          <g transform="translate(0,0)">
+            <rect width = "440" height ="30" rx="10" ry="10", style = "fill:white; stroke:black; margin:auto;"></rect>
+            {% if goal.current_progress == "25%" %}
+              <rect width="110" height="30" rx="8" ry="8", style = "fill:#ff883e; align:left;"></rect>
+              <text x="105" y="15" dy=".35em", style = "fill: white;font-size:20px; text-anchor: end;">{{goal.current_progress}}</text>
+            {% elif goal.current_progress == "less than 25%" %}
+              <rect width="30" height="30" rx="8" ry="8", style = "fill:#ff883e; align:left;"></rect>
+              <text x="40" y="15" dy=".35em", style = "fill: black;font-size:20px; text-anchor: start;">{{goal.current_progress}}</text>
+            {% elif goal.current_progress == "50%" %}
+              <rect width="220" height="30" rx="8" ry="8", style = "fill:#ff883e; align:left;"></rect>
+              <text x="215" y="15" dy=".35em", style = "fill: white;font-size:20px; text-anchor: end;">{{goal.current_progress}}</text>
+            {% elif goal.current_progress == "75%" %}
+              <rect width="330" height="30" rx="8" ry="8", style = "fill:#ff883e; align:left;"></rect>
+              <text x="215" y="15" dy=".35em", style = "fill: white;font-size:20px; text-anchor: end;">{{goal.current_progress}}</text>
+            {% elif goal.current_progress == "100%" %}
+              <rect width="440" height="30" rx="8" ry="8", style = "fill:#ff883e; align:left;"></rect>
+              <text x="435" y="15" dy=".35em", style = "fill: white;font-size:20px; text-anchor: end;">{{goal.current_progress}}</text>
+            {% endif %}
+          </g>
+        </svg>
+      </td>
+      <td class = "text-left">{{goal.goal_explain}}</td>
+    </tr> 
+  {% endfor %}
+  </tbody>
+  </table>
+</div> 
+
+<h1> Activities </h1>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Activity Name</th>
+      <th class="text-left">Activity Complete Date</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for activity in resident.activities %}
+		<tr>
+			<td class="text-left"> {{activity.activity}} </td>
+      <td class="text-left"> {{activity.complete_date}} </td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+
+
+<h1>Contact and Permissions
+  <div id = "edit">
+    <a class="btn btn-default" href="{% url 'permissions_new' pk=resident.pk %}"><span class="glyphicon glyphicon-pencil"></span><span>  New form</span></a>
+  </div>
+</h1>
+
+
+<html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        </head>
+        
+        <div class = "content">
+            <table class="table-fill">
+            <thead>
+                <tr>
+                    <th class="text-left">Contact type</th>
+                    <th class="text-left">Permission</th>
+                </tr>
+            </thead>
+        
+            <tbody class="table-hover">
+                <tr>
+                    <td class="text-left"> PHOTO </td>
+                    <td class="text-left"> {{ resident.contact_preferred.permission_photo }} </td>
+                </tr> 
+                <tr>
+                    <td class="text-left"> TEXT </td>
+                    <td class="text-left"> {{ resident.contact_preferred.permission_text }} </td>
+                </tr> 
+                <tr>
+                    <td class="text-left"> EMAIL </td>
+                    <td class="text-left"> {{ resident.contact_preferred.permission_email }} </td>
+                </tr> 
+                <tr>
+                        <td class="text-left"> PHONE </td>
+                        <td class="text-left"> {{ resident.contact_preferred.permission_call }} </td>
+                </tr> 
+                <tr>
+                        <td class="text-left"> MAIL </td>
+                        <td class="text-left"> {{ resident.contact_preferred.permission_mail }} </td>
+                </tr>
+                <tr>
+                        <td class="text-left"> FACEBOOK </td>
+                        <td class="text-left"> {{ resident.contact_preferred.permission_facebook }} </td>
+                </tr> 
+            </tbody>
+            </table>
+
+{% endblock %}

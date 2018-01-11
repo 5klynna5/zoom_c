@@ -1,0 +1,54 @@
+{% extends 'zoom_data/base.html' %}
+
+{% load static %} 
+
+{% block content %}
+
+<div id = "header">
+		<a href="{% url 'activities_list' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Resident Activity List</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+
+<h1> Adult Participants </h1>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">{{activity}} Participants</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+		{% for person in activity.members.all %}	
+		<tr>
+			<td class="text-left"> {{person}} </td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+</div>
+
+<h1> Child Participants </h1>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">{{activity}} Participants</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+		{% for person in activity.children.all %}	
+		<tr>
+			<td class="text-left"> {{person}} </td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+</div> 
+
+
+{% endblock %}

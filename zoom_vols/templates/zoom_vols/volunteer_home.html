@@ -1,0 +1,24 @@
+{% extends 'zoom_vols/base.html' %}
+
+{% block content %}
+
+<div id = "header">
+    <a href="{% url 'home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Database Home</a>
+    <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<div class = "top">ZOOM Volunteers</div>
+
+<h1>
+    <span><a href="{% url 'volunteer_list' %}" class = "btn btn-default">List of Volunteers</a></span>
+    <span><a href="{% url 'hours_new' %}" class = "btn btn-default">Add Hours for Individual Volunteer</a></span>
+    <span><a href="{% url 'group_hours_new' %}" class = "btn btn-default">Add Hours for Volunteer Group</a></span>
+</h1>
+
+<div class = "dashboard">
+    Total individual volunteer hours this month: {{total_vol_hours_month.hours_num__sum}}
+    <br>Total group volunteer hours this month: {{total_group_hours_month.hours_num__sum}} This needs to be fixed!
+</div>
+
+
+{% endblock %}

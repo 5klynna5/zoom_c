@@ -1,0 +1,13 @@
+{% extends 'zoom_numbers/base.html' %}
+
+{% block content %}
+<div class = "top">
+	Monthly Numbers
+</div>
+
+<h1>
+    <span><a href="{% url 'ymca_visits' %}" class = "btn btn-default">YMCA visits</a></span>
+    <span><a href="{% url 'food_shelf_visits' %}" class = "btn btn-default">Food Shelf visits</a></span>
+</h1>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'zoom_data/base.html' %}
+
+{% block content %}
+
+<html lang="en">
+		<head>
+			<meta charset="utf-8" />
+			<title>Table Style</title>
+			<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+		</head>
+
+<div id = "header">
+		<a href="{% url 'home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Home Page</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1>Resident Activities
+	<div id = "edit">
+		<a class = "btn btn-default"  href = "{% url 'activity_new' %}"><span class = "glyphicon glyphicon-plus"></span>Add an activity</a>
+	</div>
+
+</h1>
+
+
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Activity Name</th>
+			<th class="text-left">Month</th>
+			<th class="text-left">Adult Participants</th>
+			<th class="text-left">Child Participants</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for activity in activities %}
+		<tr>
+			<td class="text-left">
+				<a href="{% url 'activity_detail' pk=activity.pk %}">{{ activity }}</a>
+			</td>
+			<td class="text-left"> {{ activity.month }}, {{activity.year}} </td>
+			<td class="text-left"> {{ activity.members }} </td>
+			<td class="text-left"> {{ activity.children }} </td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+
+
+{% endblock %}

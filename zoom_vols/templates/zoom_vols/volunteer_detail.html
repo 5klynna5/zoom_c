@@ -1,0 +1,66 @@
+{% extends 'zoom_vols/base.html' %}
+
+{% block content %}
+
+<div id = "header">
+    <a href="{% url 'volunteer_home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Volunteer Home</a>
+    <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<div class = "top">
+    <div id = "edit">
+        <a class="btn btn-default" href="{% url 'volunteer_edit' pk=volunteer.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+    </div>
+    {{volunteer}}
+</div>
+
+
+
+<h1>Preferences and Permissions </h1>
+<div class = "left-head"> Contact preference: {{volunteer.contact_pref}} </div>
+
+
+<html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        </head>
+        
+        <div class = "content">
+            <table class="table-fill">
+            <thead>
+                <tr>
+                    <th class="text-left">Contact type</th>
+                    <th class="text-left">Permission</th>
+                </tr>
+            </thead>
+        
+            <tbody class="table-hover">
+                <tr>
+                    <td class="text-left"> PHOTO </td>
+                    <td class="text-left"> {{ volunteer.permission_photo }} </td>
+                </tr> 
+                <tr>
+                    <td class="text-left"> TEXT </td>
+                    <td class="text-left"> {{ volunteer.permission_text }} </td>
+                </tr> 
+                <tr>
+                    <td class="text-left"> EMAIL </td>
+                    <td class="text-left"> {{ volunteer.permission_email }} </td>
+                </tr> 
+                <tr>
+                        <td class="text-left"> PHONE </td>
+                        <td class="text-left"> {{ volunteer.permission_call }} </td>
+                </tr> 
+                <tr>
+                        <td class="text-left"> MAIL </td>
+                        <td class="text-left"> {{ volunteer.permission_mail }} </td>
+                </tr>
+                <tr>
+                        <td class="text-left"> FACEBOOK </td>
+                        <td class="text-left"> {{ volunteer.permission_facebook }} </td>
+                </tr> 
+            </tbody>
+            </table>
+
+{% endblock %}

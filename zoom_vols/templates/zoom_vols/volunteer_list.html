@@ -1,0 +1,56 @@
+{% extends 'zoom_vols/base.html' %}
+
+{% block content %}
+
+<div id = "header">
+    <a href="{% url 'volunteer_home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Volunteer Home</a>
+    <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1>Active Volunteers</h1>
+
+<a href="{% url 'volunteer_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a volunteer</a>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Table Style</title>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+</head>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Volunteer Name</th>
+			<th class="text-left">Volunteer Status</th>
+			<th class="text-left">Last Volunteer Activity</th>
+			<th class="text-left">Interests</th>
+			<th class="text-left">Total Volunteer Hours</th>
+			
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for volunteer in volunteers %}
+		<tr>
+			<td class="text-left">
+				<a href="{% url 'volunteer_detail' pk=volunteer.pk %}">{{ volunteer }}</a>
+			</td>
+			<td class="text-left"> {{ volunteer.status }} </td>
+			<td class="text-left"> {{ volunteer.last_activity }} </td>
+			<td class="text-left"> 
+					{% for interest in volunteer.interests.all %}
+						<li>{{ interest }}</li>
+				 	{% endfor %}
+			</td>
+			<td class="text-left"> {{ volunteer.total_hours.sum }} </td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+
+	
+
+{% endblock %}
