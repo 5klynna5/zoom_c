@@ -41,8 +41,8 @@
 				<a href="{% url 'activity_detail' pk=activity.pk %}">{{ activity }}</a>
 			</td>
 			<td class="text-left"> {{ activity.month }}, {{activity.year}} </td>
-			<td class="text-left"> {{ activity.members }} </td>
-			<td class="text-left"> {{ activity.children }} </td>
+			<td class="text-left"> {{ activity.attendances }} </td>
+			<td class="text-left"> {{ activity.child_attendances }} </td>
 		</tr> 
 	{% endfor %}
 	</tbody>

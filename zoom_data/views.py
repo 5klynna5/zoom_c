@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Resident, Goal, Progress, Household, Child, Activity
-from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm
+from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, AttendanceForm, ChildAttendanceForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import datetime
@@ -77,6 +77,38 @@ def activity_new(request):
     else:
         form = ActivityForm()
     return render(request, 'zoom_data/activity_new.html', {'form': form})
+
+@login_required(login_url='/login/')
+def attendance_new(request, pk):
+    activity = get_object_or_404(Activity, pk=pk)
+    if request.method == "POST":
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            attendance = form.save(commit=False)
+            attendance.activity = activity
+            attendance.save()
+            return redirect('activity_detail', pk = activity.pk)
+    else:
+        form = AttendanceForm()
+        args = {}
+        args['form'] = form
+    return render(request, 'zoom_data/attendance_new.html', {'form': form, 'activity': activity})
+
+@login_required(login_url='/login/')
+def child_attendance_new(request, pk):
+    activity = get_object_or_404(Activity, pk=pk)
+    if request.method == "POST":
+        form = ChildAttendanceForm(request.POST)
+        if form.is_valid():
+            childattendance = form.save(commit=False)
+            childattendance.activity = activity
+            childattendance.save()
+            return redirect('activity_detail', pk = activity.pk)
+    else:
+        form = ChildAttendanceForm()
+        args = {}
+        args['form'] = form
+    return render(request, 'zoom_data/attendance_new.html', {'form': form, 'activity': activity})
 
 @login_required(login_url='/login/')
 def add_progress(request, pk):
@@ -164,5 +196,10 @@ def activity_follow_up(request, pk):
 
 @login_required(login_url='/login/')
 def household_list(request):
-    households = Household.objects.all()
+    households = Household.objects.filter(exit_date__isnull = True).order_by('household_name')
+    return render(request, 'zoom_data/household_list.html', {'households' : households})
+
+@login_required(login_url='/login/')
+def past_household_list(request):
+    households = Household.objects.filter(exit_date__isnull = False).order_by('household_name')
     return render(request, 'zoom_data/household_list.html', {'households' : households})

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Resident, Goal, Progress, Household, Child, Contact, Activity
+from .models import Resident, Goal, Progress, Household, Child, Contact, Activity, Attendance, ChildAttendance
 from django.forms.extras.widgets import SelectDateWidget
 from django.contrib.admin.widgets import AdminDateWidget 
 from functools import partial
@@ -47,6 +47,16 @@ class ActivityForm(forms.ModelForm):
 	class Meta:
 		model = Activity
 		exclude = ('members','children')
-	   
-       
+
+class AttendanceForm(forms.ModelForm):
+
+	class Meta:
+		model = Attendance
+		exclude = ('activity',)
+
+class ChildAttendanceForm(forms.ModelForm):
+
+	class Meta:
+		model = ChildAttendance
+		exclude = ('activity',)   
 	   

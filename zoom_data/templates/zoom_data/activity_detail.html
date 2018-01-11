@@ -9,41 +9,57 @@
 		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
+<div class = "top">
+	{{activity}} {{activity.month}}, {{activity.year}}
+</div>
 
-<h1> Adult Participants </h1>
+
+<h1> Adult Participants
+	<div id = "edit">
+		<a class ="btn btn-default" href="{% url 'attendance_new' pk=activity.pk %}"><span class = "glyphicon glyphicon-plus"></span>  Add an adult participant</a>
+	</div>		
+</h1>
 
 <div class = "content">
 	<table class="table-fill">
 	<thead>
 		<tr>
-			<th class="text-left">{{activity}} Participants</th>
+			<th class="text-left">Participants</th>
+			<th class="text-left">Complete Date</th>
 		</tr>
 	</thead>
 
 	<tbody class="table-hover">
-		{% for person in activity.members.all %}	
+		{% for person in activity.attendee_list %}	
 		<tr>
-			<td class="text-left"> {{person}} </td>
+			<td class="text-left"> {{person.resident}} </td>
+			<td class="text-left"> {{person.complete_date}} </td>
 		</tr>
 		{% endfor %}
 	</tbody>
 	</table>
 </div>
 
-<h1> Child Participants </h1>
+<h1> Child Participants
+	<div id = "edit">
+		<a class ="btn btn-default" href="{% url 'child_attendance_new' pk=activity.pk %}"><span class = "glyphicon glyphicon-plus"></span>  Add a child participant</a>
+	</div>	
+</h1>
 
 <div class = "content">
 	<table class="table-fill">
 	<thead>
 		<tr>
-			<th class="text-left">{{activity}} Participants</th>
+			<th class="text-left">Participants</th>
+			<th class="text-left">Complete Date</th>
 		</tr>
 	</thead>
 
 	<tbody class="table-hover">
-		{% for person in activity.children.all %}	
+		{% for person in activity.child_attendee_list %}	
 		<tr>
-			<td class="text-left"> {{person}} </td>
+			<td class="text-left"> {{person.child}} </td>
+			<td class="text-left"> {{person.complete_date}} </td>
 		</tr>
 		{% endfor %}
 	</tbody>

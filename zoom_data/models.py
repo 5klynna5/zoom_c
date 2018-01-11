@@ -45,7 +45,6 @@ class Resident(models.Model):
 
 	health_ins = models.CharField(max_length = 8, choices=INSURANCE_CHOICES, blank=True, null=True)
 
-	resident_exit  = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", null=True, blank=True)
 
 	@property
 	def goals(self):
@@ -142,6 +141,8 @@ class Household(models.Model):
 	
 	def __str__(self):
 		return str(self.household_name)
+
+	exit_date  = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", null=True, blank=True)
 
 class Progress(models.Model):
 
@@ -241,9 +242,16 @@ class Activity(models.Model):
 		return self.attendance_set.all().count()
 
 	@property
+	def attendee_list(self):
+		return self.attendance_set.all().order_by('resident')
+
+	@property
 	def child_attendances(self):
 		return self.childattendance_set.all().count()
 
+	@property
+	def child_attendee_list(self):
+		return self.childattendance_set.all()
 
 	def __str__(self):
 		return str(self.activity_name)
