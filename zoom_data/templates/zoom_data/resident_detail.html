@@ -28,7 +28,7 @@
  <span class = "large-text">
     <b> Resident Name: </b> {{resident}}
     <br><b> Move-in Date: </b> {{resident.resident_move_in}}
-    <br><b> Health insurance: </b> {{resident.health_ins}}
+    <br><b> Length of Stay: </b> {{resident.time_since_move_in}}
   </span>
   <span class = "large-text"> 
     <b> Phone: </b> {{resident.contact_preferred.resident_phone}}
@@ -40,6 +40,11 @@
       <br><b>Ethnicity: </b> {{resident.ethnicity}}
       <br><b>Gender: </b> {{resident.gender}}
   </span>
+  <span class = "large-text"> 
+    <b>Date of Birth: </b> {{resident.dob}} 
+    <br><b>Age: </b> {{resident.dob}}
+    <br><b> Health insurance: </b> {{resident.health_ins}}
+</span>
 
  <h1> Goals 
     <div id = "edit">

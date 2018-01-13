@@ -8,7 +8,8 @@ class Resident(models.Model):
 	resident_first_name = models.CharField(max_length=20)
 	resident_last_name = models.CharField(max_length=20)
 	resident_move_in = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.")
-	household = models.ForeignKey('Household', blank=True, null=True)
+	household = models.ForeignKey('Household')
+	dob = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
 	GENDER_CHOICES = (
 		('FEMALE', 'Female'),
@@ -60,7 +61,17 @@ class Resident(models.Model):
 	@property
 	def activities(self):
 		return self.attendance_set.all()
-	
+
+	@property
+	def age(self):
+		import datetime
+		return int((datetime.date.today() - self.dob).days / 365.25  )
+
+	##this is not working
+	@property
+	def months_since_move_in(self):
+		import datetime
+		return int((datetime.date.today() - self.resident_move_in).months /12 )
 
 	def __str__(self):
 		return (self.resident_last_name) + ', ' + (self.resident_first_name)
@@ -133,16 +144,23 @@ class Household(models.Model):
 	
 	@property
 	def hoh(self):
-		return self.resident_set.all()
+		return self.resident_set.all().first().resident_move_in
 	
 	@property
 	def children(self):
 		return self.child_set.all()
+
+	@property
+	def exit_date(self):
+		if self.exitinterview_set.all().first().exit_date is None:
+			return None
+		else:
+			return self.exitinterview_set.all().first().exit_date
 	
 	def __str__(self):
 		return str(self.household_name)
 
-	exit_date  = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", null=True, blank=True)
+	
 
 class Progress(models.Model):
 
@@ -273,5 +291,53 @@ class ChildAttendance(models.Model):
 	def __str__(self):
 		return str(self.activity)
 
+class ExitInterview(models.Model):
+	household = models.ForeignKey(Household)
+	exit_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
+	SHELTER_CHOICES = (
+		('FRIEND_FAMILY','Staying with friend or family'),
+		('SECTION_8', 'Section 8 Housing'),
+		('MARKET_RATE', 'Market Rate Housing'),
+		('OTHER_PROGRAM', 'Other Housing Program'),
+		('SHELTER','Shelter'),
+		('UNKNOWN', 'Do not know'),
+		('OTHER', 'Other'),
+		('PREFER_NOT_SAY', 'Prefer not to say'),
+	)
+
+	living_next = models.CharField(max_length = 15, choices = SHELTER_CHOICES, blank=True, null=True)
+	living_next_other = models.CharField(max_length = 30, blank=True, null=True)
+
+	goal_one_name = models.CharField(max_length = 30, blank=True, null=True)
+
+	PROGRESS_CHOICES = (
+		('less than 25%', 'less than 25%'),
+		('25%', '25%'),
+		('50%', '50%'),
+		('75%', '75%'),
+		('100%', '100%'),
+	)
+
+	goal_one_progress = models.CharField(max_length=13, choices=PROGRESS_CHOICES, blank=True, default = "less than 25%")
+	goal_one_status = models.TextField(blank=True)
+
+	goal_two_name = models.CharField(max_length = 30, blank=True, null=True)
+	goal_two_progress = models.CharField(max_length=13, choices=PROGRESS_CHOICES, blank=True, default = "less than 25%")
+	goal_two_status = models.TextField(blank=True)
+
+	goals_future = models.TextField(blank=True)
+
+	why_leaving = models.TextField(blank=True)
+
+	most_helpful = models.TextField(blank=True)
+
+	not_helpful = models.TextField(blank=True)
+
+	advice_resident = models.TextField(blank=True)
+
+	advice_staff = models.TextField(blank=True)
+
+	def __str__(self):
+		return str(self.household)
 

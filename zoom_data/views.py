@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Resident, Goal, Progress, Household, Child, Activity
-from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, AttendanceForm, ChildAttendanceForm
+from .models import Resident, Goal, Progress, Household, Child, Activity, ExitInterview
+from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, AttendanceForm, ChildAttendanceForm, ExitForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import datetime
@@ -19,11 +19,6 @@ def activities_list(request):
 def activity_detail(request, pk):
     activity = get_object_or_404(Activity, pk=pk)
     return render(request, 'zoom_data/activity_detail.html', {'activity': activity})
-
-@login_required(login_url='/login/')
-def resident_list(request):
-	residents = Resident.objects.filter(resident_exit__isnull = True).order_by('resident_last_name')
-	return render(request, 'zoom_data/resident_list.html', {'residents' : residents})
 
 @login_required(login_url='/login/')
 def resident_detail(request, pk):
@@ -190,16 +185,45 @@ def resident_edit(request, pk):
     return render(request, 'zoom_data/resident_edit.html', {'form': form})
 
 @login_required(login_url='/login/')
+def household_edit(request, pk):
+    household = get_object_or_404(Household, pk=pk)
+    if request.method == "POST":
+        form = HouseholdForm(request.POST, instance=household)
+        if form.is_valid():
+            household = form.save(commit=False)
+            household.save()
+            return redirect('household_list')
+    else:
+        form = HouseholdForm(instance=household)
+    return render(request, 'zoom_data/household_edit.html', {'form': form})
+
+@login_required(login_url='/login/')
 def activity_follow_up(request, pk):
     resident = get_object_or_404(Resident, pk=pk)
     return render(request, 'zoom_data/resident_detail.html', {'resident': resident})
 
 @login_required(login_url='/login/')
 def household_list(request):
-    households = Household.objects.filter(exit_date__isnull = True).order_by('household_name')
+    households = Household.objects.filter(exitinterview = None).order_by('household_name')
     return render(request, 'zoom_data/household_list.html', {'households' : households})
 
 @login_required(login_url='/login/')
 def past_household_list(request):
-    households = Household.objects.filter(exit_date__isnull = False).order_by('household_name')
-    return render(request, 'zoom_data/household_list.html', {'households' : households})
+    households = Household.objects.filter(exitinterview__isnull=False).order_by('household_name')
+    return render(request, 'zoom_data/past_household_list.html', {'households' : households})
+
+@login_required(login_url='/login/')
+def exit_new(request, pk):
+    household = get_object_or_404(Household, pk=pk)
+    if request.method == "POST":
+        form = ExitForm(request.POST)
+        if form.is_valid():
+            exitinterview = form.save(commit=False)
+            exitinterview.household = household
+            exitinterview.save()
+            return redirect('household_list')
+    else:
+        form = ExitForm()
+        args = {}
+        args['form'] = form
+    return render(request, 'zoom_data/exit_new.html', {'form': form})

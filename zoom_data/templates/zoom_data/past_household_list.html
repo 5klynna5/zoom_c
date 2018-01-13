@@ -14,7 +14,7 @@
 		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
-<h1>Current Households
+<h1>Past Households
 <div id = "edit">
 	<a class="btn btn-default" href="{% url 'household_new' %}"><span class="glyphicon glyphicon-plus"></span> Add household</a>
 </div>
@@ -27,9 +27,8 @@
 			<th class="text-left">Household</th>		
 			<th class="text-left">Head(s) of Household</th>
 			<th class="text-left">Unit Type</th>
-			<th class="text-left">Unit Number</th>
+			<th class="text-left">Exit Date</th>
 			<th class="text-left">Children</th>
-			<th class="text-left">Options</th>
 		</tr>
 	</thead>
 
@@ -44,23 +43,15 @@
 					<br>
 				{% endfor %}
 				<br>
-				<a class = "btn btn-default" href = "{% url 'resident_new' pk=household.pk %}"><span class="glyphicon glyphicon-plus"></span>  Add resident</a>
 			</td>
 			<td class="text-left">{{ household.unit_type }}</td>
-			<td class="text-left">{{ household.unit_num }}</td>
+			<td class="text-left">{{ household.exit_date }}</td>
 			<td class="text-left">
 					{% for person in household.children %}
 						<br>
-						<a href="{% url 'child_detail' pk=person.pk %}">{{person}}</a><br>
+						<a href="{% url 'child_detail' pk=person.pk %}"></a>{{person}}</a><br>
 					{% endfor %}
 					<br>
-					<a class = "btn btn-default" href = "{% url 'child_new' pk=household.pk %}"><span class="glyphicon glyphicon-plus"></span>  Add child</a>
-			</td>
-			<td class = "text-left">
-				<a class = "btn btn-default" href = "{% url 'exit_new' pk=household.pk %}"><span class="glyphicon glyphicon-home"></span>  Household Exit </a>
-				<br>
-				<br>
-				<a class = "btn btn-default" href = "{% url 'household_edit' pk=household.pk %}"><span class="glyphicon glyphicon-pencil"></span>  Edit Household Info</a>
 			</td>
 		</tr> 
 	{% endfor %}

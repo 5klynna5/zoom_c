@@ -7,7 +7,7 @@
 		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
-    <h1>New household</h1>
+    <h1>Edit {{Household}} Household</h1>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
