@@ -83,6 +83,12 @@ class Contact(models.Model):
 	contact_resident = models.ForeignKey('Resident')
 	resident_phone = models.CharField( max_length=10, blank=True, null=True)
 	resident_email = models.EmailField(blank=True, null=True)
+	mailing_address_line_one = models.CharField(max_length = 40, blank=True, null=True)
+	mailing_address_line_two = models.CharField(max_length = 40, blank=True, null=True)
+	mailing_address_city = models.CharField(max_length = 15, blank=True, null=True)
+	##see if django field to make this easier / validated
+	mailing_address_state = models.CharField(max_length = 2, blank=True, null=True)
+	mailing_address_zip = models.SmallIntegerField(blank = True, null=True)
 
 	PERMISSION_CHOICES = {
 		('Yes', 'YES'),
@@ -152,6 +158,10 @@ class Household(models.Model):
 	@property
 	def children(self):
 		return self.child_set.all()
+
+	@property
+	def exit_interview(self):
+		return self.exitinterview_set.all().first()
 
 	@property
 	def exit_date(self):

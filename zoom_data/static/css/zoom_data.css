@@ -71,6 +71,13 @@ h1 {
   height: 40px;
 }
 
+.large-text-no-space {
+  color: #474da4;
+  font-family: "Avenir Next", Helvetica, sans-serif;
+  font-size: 34;
+  display: inline-block;
+}
+
 
 
 .sub-head {

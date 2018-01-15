@@ -38,7 +38,6 @@
 			<td class = "text-left">
 				{{household}}
 			</td>
-			<td class="text-left">{{ household.exit_date }}</td>
 			<td class="text-left">
 				{% for person in household.hoh %}
 					<br>
@@ -47,7 +46,13 @@
 				{% endfor %}
 				<br>
 			</td>
-			<td class="text-left">{{ household.unit_type }}</td>
+			<td class = "text-left">{{household.unit_type}}</td>
+			<td class="text-left">
+				{{household.exit_date}}
+				<br>
+				<br>
+				<a class = "btn btn-default" href="{% url 'exit_interview_view' pk=household.exit_interview.pk %}">View Exit Interview</a>
+			</td>
 			<td class="text-left">
 					{% for person in household.children %}
 						<br>

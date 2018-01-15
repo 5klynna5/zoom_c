@@ -213,6 +213,11 @@ def past_household_list(request):
     return render(request, 'zoom_data/past_household_list.html', {'households' : households})
 
 @login_required(login_url='/login/')
+def exit_interview_view(request, pk):
+    exit_interview = get_object_or_404(ExitInterview, pk=pk)
+    return render(request, 'zoom_data/exit_interview_view.html', {'exit_interview' : exit_interview})
+
+@login_required(login_url='/login/')
 def exit_new(request, pk):
     household = get_object_or_404(Household, pk=pk)
     if request.method == "POST":

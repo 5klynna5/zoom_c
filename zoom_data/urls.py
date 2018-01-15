@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^household/new/$', views.household_new, name='household_new'),
     url(r'^resident/(?P<pk>\d+)/$', views.resident_detail, name='resident_detail'),
     url(r'^goal/(?P<pk>\d+)/$', views.goal_detail, name='goal_detail'),
+    url(r'^exit_interview/(?P<pk>\d+)/$', views.exit_interview_view, name='exit_interview_view'),
     url(r'^child/(?P<pk>\d+)/$', views.child_detail, name='child_detail'),
     url(r'^goal/(?P<pk>\d+)/new/$', views.goal_new, name='goal_new'),
     url(r'^goal/(?P<pk>\d+)/add_progress/$', views.add_progress, name="add_progress"),

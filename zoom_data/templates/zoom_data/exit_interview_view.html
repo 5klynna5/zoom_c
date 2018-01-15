@@ -1,0 +1,44 @@
+{% extends 'zoom_data/base.html' %}
+
+{% block content %}
+
+<div id = "header">
+		<a href="{% url 'past_household_list' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Past Resident Household List</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1> {{exit_interview.household}} Household Exit Interview  </h1>
+
+<div class = "large-text">
+<b>Where are you going to be living next?</b> {{living_next}}
+
+<br><b>Where are you in terms of two important goals you have had while at ZOOM?</b>
+
+<br><b>Goal and progress at exit:</b> {{exit_interview.goal_one_name}} {{exit_interview.goal_one_progress}} {{exit_interview.goal_one_status}}
+
+<br><b>Goal and progress at exit:</b> {{exit_interview.goal_two_name}} {{exit_interview.goal_two_progress}} {{exit_interview.goal_two_status}}
+
+<br><b>What is a goal or two for yourself in the future?</b>
+{{exit_interview.goals_future}}
+
+<br><b>Why are you leaving ZOOM?</b>
+{{exit_interview.why_leaving}}
+
+<br><b>What has been most helpful for you and your family while you’ve been at ZOOM?</b>
+{{exit_interview.most_helpful}}
+
+<br><b>What has not been helpful for you and your family while you’ve been at ZOOM?</b>
+{{exit_interview.not_helpful}}
+
+<br><b>What advice would you give a resident just moving into ZOOM House?</b>
+{{exit_interview.advice_resident}}
+
+<br><b>What advice would you give the staff at ZOOM, Perennial, or Simpson to better help people and families at ZOOM?</b>
+{{exit_interview.advice_staff}}
+
+<br>
+</div>
+<br>
+<br>
+
+{% endblock %}

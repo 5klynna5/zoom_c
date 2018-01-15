@@ -15,7 +15,7 @@
 </style>
 
 <div id = "header">
-		<a href="{% url 'household_list' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Resident Household List</a>
+		<a href="{% url 'home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Home Page</a>
 		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
@@ -28,12 +28,7 @@
  <span class = "large-text">
     <b> Resident Name: </b> {{resident}}
     <br><b> Move-in Date: </b> {{resident.resident_move_in}}
-    <br><b> Length of Stay: </b> {{resident.length_of_stay}}
-  </span>
-  <span class = "large-text"> 
-    <b> Phone: </b> {{resident.contact_preferred.resident_phone}}
-    <br><b>Email: </b> {{resident.contact_preferred.resident_email}}
-    <br><b>Contact Preferred: </b> {{resident.contact_preferred.contact_pref}}
+    <br><b> Length of Stay: </b> {{resident.length_of_stay}} days
   </span>
   <span class = "large-text"> 
       <b>Race: </b> {{resident.race}} 
@@ -42,8 +37,21 @@
   </span>
   <span class = "large-text"> 
     <b>Date of Birth: </b> {{resident.dob}} 
-    <br><b>Age: </b> {{resident.dob}}
+    <br><b>Age: </b> {{resident.age}}
     <br><b> Health insurance: </b> {{resident.health_ins}}
+</span>
+<span class = "large-text"> 
+    <b> Phone: </b> {{resident.contact_preferred.resident_phone}}
+    <br><b>Email: </b> {{resident.contact_preferred.resident_email}}
+    <br><b>Contact Preferred: </b> {{resident.contact_preferred.contact_pref}}
+  </span>
+<span class = "large-text-no-space"> 
+    <b>Mailing address:</b>
+    <br>{{resident.contact_preferred.mailing_address_line_one}}
+    {% if resident.contact_preferred.mailing_address_line_two != None %}
+      <br>{{resident.contact_preferred.mailing_address_line_two}} 
+    {% endif %}
+    {{resident.contact_preferred.mailing_address_city}}, {{resident.contact_preferred.mailing_address_state}} {{resident.contact_preferred.mailing_address_zip}} 
 </span>
 
  <h1> Goals 
