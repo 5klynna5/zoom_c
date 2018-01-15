@@ -209,7 +209,7 @@ def household_list(request):
 
 @login_required(login_url='/login/')
 def past_household_list(request):
-    households = Household.objects.filter(exitinterview__isnull=False).order_by('household_name')
+    households = Household.objects.filter(exitinterview__isnull = False).order_by('household_name')
     return render(request, 'zoom_data/past_household_list.html', {'households' : households})
 
 @login_required(login_url='/login/')

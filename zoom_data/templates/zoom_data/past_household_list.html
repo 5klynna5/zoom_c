@@ -35,7 +35,10 @@
 	<tbody class="table-hover">
 	{% for household in households %}
 		<tr>
-			<td class = "text-left">{{household}}</td>
+			<td class = "text-left">
+				{{household}}
+			</td>
+			<td class="text-left">{{ household.exit_date }}</td>
 			<td class="text-left">
 				{% for person in household.hoh %}
 					<br>
@@ -45,7 +48,6 @@
 				<br>
 			</td>
 			<td class="text-left">{{ household.unit_type }}</td>
-			<td class="text-left">{{ household.exit_date }}</td>
 			<td class="text-left">
 					{% for person in household.children %}
 						<br>

@@ -69,9 +69,12 @@ class Resident(models.Model):
 
 	##this is not working
 	@property
-	def months_since_move_in(self):
+	def length_of_stay(self):
 		import datetime
-		return int((datetime.date.today() - self.resident_move_in).months /12 )
+		if self.household.exit_date is None:
+			return (datetime.date.today() - self.resident_move_in).days
+		else:
+			return (self.household.exit_date - self.resident_move_in).days
 
 	def __str__(self):
 		return (self.resident_last_name) + ', ' + (self.resident_first_name)
@@ -144,7 +147,7 @@ class Household(models.Model):
 	
 	@property
 	def hoh(self):
-		return self.resident_set.all().first().resident_move_in
+		return self.resident_set.all()
 	
 	@property
 	def children(self):
@@ -152,7 +155,7 @@ class Household(models.Model):
 
 	@property
 	def exit_date(self):
-		if self.exitinterview_set.all().first().exit_date is None:
+		if self.exitinterview_set.all().first() is None:
 			return None
 		else:
 			return self.exitinterview_set.all().first().exit_date
