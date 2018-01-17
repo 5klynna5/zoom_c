@@ -13,6 +13,11 @@
 	{{activity}} {{activity.month}}, {{activity.year}}
 </div>
 
+<h1> Surveys
+	<div id = "edit">
+		<a class ="btn btn-default" href="{% url 'activity_survey_new' pk=activity.pk %}"><span class = "glyphicon glyphicon-plus"></span>  Add a survey response</a>
+	</div>		
+</h1>
 
 <h1> Adult Participants
 	<div id = "edit">
@@ -30,10 +35,10 @@
 	</thead>
 
 	<tbody class="table-hover">
-		{% for person in activity.attendee_list %}	
+		{% for attendance in activity.attendee_list %}	
 		<tr>
-			<td class="text-left"> {{person.resident}} </td>
-			<td class="text-left"> {{person.complete_date}} </td>
+			<td class="text-left"> {{attendance.resident}} </td>
+			<td class="text-left"> {{attendance.complete_date}} </td>
 		</tr>
 		{% endfor %}
 	</tbody>

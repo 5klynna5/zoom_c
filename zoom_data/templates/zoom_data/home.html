@@ -40,73 +40,76 @@
 
 	<div id = "welcome">
 		Welcome to the ZOOM Database!
-	</div>
+  </div>
+  <br>
 
-	<style>
+  <div class = "top">
+    Current Resident Dashboard
+  </div>
+  
+  <div class = "content">
+      <table class="table-fill">
+      <thead>
+        <tr>
+            <th class="text-left"></th>
+            <th class="text-left">Households</th>
+          <th class="text-left">Adult Residents</th>
+          <th class="text-left">Child Residents</th>
+        </tr>
+      </thead>
+    
+      <tbody class="table-hover">
+        <tr>
+          <td class="text-left"> Total Number </td>
+          <td class="text-left"> {{households.count}} </td>
+          <td class="text-left"> {{residents.count}} </td>
+          <td class="text-left"> {{children.count}} </td>
+        </tr>
+        <tr>
+            <td class="text-left"> Average Length of Stay</td>
+            <td class="text-left"> </td>
+            <td class="text-left">
+                {% for resident in residents %}
+                    {{resident.length_of_stay}}
+                {% endfor %}
+            </td>
+            <td class="text-left">  </td>
+        </tr>
+        <tr>
+            <td class="text-left"> Male </td>
+            <td class="text-left"> N/A </td>
+            <td class="text-left"> {{residents_male.count}} </td>
+            <td class="text-left"> {{children_male.count}} </td>
+        </tr>
+        <tr>
+            <td class="text-left"> Female </td>
+            <td class="text-left"> N/A </td>
+            <td class="text-left"> {{residents_female.count}} </td>
+            <td class="text-left">  {{children_female.count}} </td>
+        </tr>
+        <tr>
+            <td class="text-left"> In Supportive Housing </td>
+            <td class="text-left"> {{households_sh.count}} </td>
+            <td class="text-left"> {{residents_sh.count}} </td>
+            <td class="text-left"> {{children_sh.count}} </td>
+        </tr>
+        <tr>
+            <td class="text-left"> In MARIF Units</td>
+            <td class="text-left">{{households_marif.count}} </td>
+            <td class="text-left"> {{residents_marif.count}} </td>
+            <td class="text-left"> {{children_marif.count}} </td>
+        </tr>
+        <tr>
+            <td class="text-left"> In Studio Units</td>
+            <td class="text-left">{{households_studio.count}} </td>
+            <td class="text-left"> {{residents_studio.count}} </td>
+            <td class="text-left"> N/A </td>
+        </tr>
 
-.bar {
-  fill: steelblue;
-}
-
-.bar:hover {
-  fill: brown;
-}
-
-.axis--x path {
-  display: none;
-}
-
-</style>
-<svg width="960" height="500"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
-
-var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
-
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().rangeRound([height, 0]);
-
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("{% static "data.csv" %}", function(d) {
-  d.frequency = +d.frequency;
-  return d;
-}, function(error, data) {
-  if (error) throw error;
-
-  x.domain(data.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
-
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
-
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
-      .attr("y", function(d) { return y(d.frequency); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.frequency); });
-});
-
-</script>
+      </tbody>
+      </table>
+    </div>
+<br>
 
 	<div id = "log-in-status">
 			{% if user.is_authenticated %}

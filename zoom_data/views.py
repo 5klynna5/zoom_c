@@ -1,14 +1,36 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Resident, Goal, Progress, Household, Child, Activity, ExitInterview
-from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, AttendanceForm, ChildAttendanceForm, ExitForm
+from .models import Resident, Goal, Progress, Household, Child, Activity, ExitInterview, FollowUp, Attendance
+from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, ActivitySurveyForm, AttendanceForm, ChildAttendanceForm, ExitForm, FollowUpForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import datetime
+from django.db.models import Avg
 
 @login_required(login_url='/login/')
 def home(request):
-    ##make a json from the database to use in d3 viz
-    return render(request,'zoom_data/home.html')
+    households = Household.objects.filter(exitinterview = None)
+    households_sh = households.filter(unit_type = 'SUPPORTIVE')
+    households_marif = households.filter(unit_type = 'MARIF')
+    households_studio = households.filter(unit_type = 'STUDIO')
+    resident_list = [resident.pk for resident in Resident.objects.all() if (resident.household in households)]
+    residents = Resident.objects.filter(pk__in=resident_list)
+    residents_male = residents.filter(gender = 'MALE')
+    residents_female = residents.filter(gender = 'FEMALE')
+    child_list = [child.pk for child in Child.objects.all() if (child.household in households)]
+    children = Child.objects.filter(pk__in=child_list)
+    children_male = children.filter(gender = 'MALE')
+    children_female = children.filter(gender = 'FEMALE')
+    residents_sh_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_sh)]
+    residents_sh = Resident.objects.filter(pk__in=residents_sh_list)
+    residents_marif_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_marif)]
+    residents_marif = Resident.objects.filter(pk__in=residents_marif_list)
+    residents_studio_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_studio)]
+    residents_studio = Resident.objects.filter(pk__in=residents_studio_list)
+    children_sh_list =  [child.pk for child in Child.objects.all() if (child.household in households_sh)]
+    children_sh = Child.objects.filter(pk__in=children_sh_list)
+    children_marif_list =  [child.pk for child in Child.objects.all() if (child.household in households_marif)]
+    children_marif = Child.objects.filter(pk__in=children_marif_list)
+    return render(request,'zoom_data/home.html', {'households': households, 'households_sh': households_sh, 'households_marif': households_marif, 'households_studio': households_studio, 'residents' : residents, 'children' : children, 'residents_male' : residents_male, 'residents_female': residents_female, 'children_male': children_male, 'children_female' : children_female, 'residents_sh': residents_sh, 'children_sh': children_sh, 'residents_marif': residents_marif, 'children_marif': children_marif, 'residents_studio' : residents_studio})
 
 @login_required(login_url='/login/')
 def activities_list(request):
@@ -49,6 +71,21 @@ def goal_new(request, pk):
         form = GoalForm()
     return render(request, 'zoom_data/goal_new.html', {'form': form})
 
+
+@login_required(login_url='/login/')
+def follow_up_new(request, pk):
+    attendance = get_object_or_404(Attendance, pk=pk)
+    if request.method == "POST":
+        form = FollowUpForm(request.POST)
+        if form.is_valid():
+            followup = form.save(commit=False)
+            followup.attendance = attendance
+            followup.save()
+            return redirect('activity_list')
+    else:
+        form = FollowUpForm()
+    return render(request, 'zoom_data/follow_up_new.html', {'form': form})
+
 @login_required(login_url='/login/')
 def household_new(request):
     if request.method == "POST":
@@ -88,6 +125,22 @@ def attendance_new(request, pk):
         args = {}
         args['form'] = form
     return render(request, 'zoom_data/attendance_new.html', {'form': form, 'activity': activity})
+
+@login_required(login_url='/login/')
+def activity_survey_new(request, pk):
+    activity = get_object_or_404(Activity, pk=pk)
+    if request.method == "POST":
+        form = ActivitySurveyForm(request.POST)
+        if form.is_valid():
+            activitysurvey = form.save(commit=False)
+            activitysurvey.activity = activity
+            activitysurvey.save()
+            return redirect('activity_detail', pk = activity.pk)
+    else:
+        form = ActivitySurveyForm()
+        args = {}
+        args['form'] = form
+    return render(request, 'zoom_data/activity_survey_new.html', {'form': form, 'activity': activity})
 
 @login_required(login_url='/login/')
 def child_attendance_new(request, pk):
@@ -197,10 +250,6 @@ def household_edit(request, pk):
         form = HouseholdForm(instance=household)
     return render(request, 'zoom_data/household_edit.html', {'form': form})
 
-@login_required(login_url='/login/')
-def activity_follow_up(request, pk):
-    resident = get_object_or_404(Resident, pk=pk)
-    return render(request, 'zoom_data/resident_detail.html', {'resident': resident})
 
 @login_required(login_url='/login/')
 def household_list(request):

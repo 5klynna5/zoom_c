@@ -111,6 +111,7 @@
 		<tr>
 			<th class="text-left">Activity Name</th>
       <th class="text-left">Activity Complete Date</th>
+      <th class = "text-left">Activity Follow Up</th>
 		</tr>
 	</thead>
 
@@ -119,6 +120,10 @@
 		<tr>
 			<td class="text-left"> {{activity.activity}} </td>
       <td class="text-left"> {{activity.complete_date}} </td>
+      <td class="text-left"> 
+        {{activity.follow_up.follow_up_date}}
+        <a class = "btn btn-default" href = "{% url 'follow_up_new' pk=activity.pk %}">add new</a>
+       </td>
 		</tr> 
 	{% endfor %}
 	</tbody>

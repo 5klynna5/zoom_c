@@ -6,7 +6,9 @@ urlpatterns = [
     url(r'^activities/$', views.activities_list, name='activities_list'),
     url(r'^activity/(?P<pk>\d+)/$', views.activity_detail, name='activity_detail'),
     url(r'^activity/new/$', views.activity_new, name='activity_new'),
+    url(r'^attendance/(?P<pk>\d+)/add_follow_up/$', views.follow_up_new, name='follow_up_new'),
     url(r'^activity/(?P<pk>\d+)/add_attendance/$', views.attendance_new, name = 'attendance_new'),
+    url(r'^activity/(?P<pk>\d+)/add_survey/$', views.activity_survey_new, name = 'activity_survey_new'),
     url(r'^activity/(?P<pk>\d+)/add_child_attendance/$', views.child_attendance_new, name = 'child_attendance_new'),
     url(r'^households/$', views.household_list, name='household_list'),
     url(r'^past_households/$', views.past_household_list, name='past_household_list'),
@@ -23,5 +25,4 @@ urlpatterns = [
     url(r'^resident/edit/(?P<pk>\d+)/$', views.resident_edit, name = 'resident_edit'),
     url(r'^household/edit/(?P<pk>\d+)/$', views.household_edit, name = 'household_edit'),
     url(r'^resident/(?P<pk>\d+)/add_permissions/$', views.permissions_new, name = 'permissions_new'),
-    url(r'^activity/(?P<pk>\d+)/$', views.activity_follow_up, name='activity_follow_up'),
 ]

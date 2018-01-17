@@ -1,5 +1,5 @@
 from django import forms
-from .models import Resident, Goal, Progress, Household, Child, Contact, Activity, Attendance, ChildAttendance, ExitInterview
+from .models import Resident, Goal, Progress, Household, Child, Contact, Activity, ActivitySurvey, Attendance, ChildAttendance, ExitInterview, FollowUp
 from django.forms.extras.widgets import SelectDateWidget
 from django.contrib.admin.widgets import AdminDateWidget 
 from functools import partial
@@ -65,4 +65,25 @@ class ExitForm(forms.ModelForm):
 	class Meta:
 		model = ExitInterview
 		exclude = ('household',)
-	   
+
+class FollowUpForm(forms.ModelForm):
+
+	class Meta:
+		model = FollowUp
+		exclude = ('attendance',)
+
+class ActivitySurveyForm(forms.ModelForm):
+
+	class Meta:
+		model = ActivitySurvey
+		exclude = ('activity',)
+		labels = {
+		"NEEDS_IMPROVE" : "I needed to improve in this skill area",
+		"INTERESTING": 'I thought it would be interesting',
+		'INCENTIVE': 'The incentive',
+		'ADVOCATE': 'My advocate recommended it',
+		'OTHER_REC': 'Someone else recommended it',
+		'PEOPLE': 'I knew the other people that would be there',
+		'comments' : 'What other comments or suggestions do you have about this workshop?',
+		'unit_type' : 'At ZOOM I live in a'
+		}

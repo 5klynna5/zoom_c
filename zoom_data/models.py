@@ -67,7 +67,7 @@ class Resident(models.Model):
 		import datetime
 		return int((datetime.date.today() - self.dob).days / 365.25  )
 
-	##this is not working
+
 	@property
 	def length_of_stay(self):
 		import datetime
@@ -143,6 +143,7 @@ class Goal(models.Model):
 class Household(models.Model):
 	household_name = models.CharField(max_length = 20, blank=True, null=True)
 	unit_num = models.PositiveSmallIntegerField(blank=True, null=True)
+
 	UNIT_CHOICES = (
 		('SUPPORTIVE', 'Supportive Housing'),
 		('MARIF', 'MARIF'),
@@ -284,6 +285,10 @@ class Activity(models.Model):
 	def child_attendee_list(self):
 		return self.childattendance_set.all()
 
+	@property
+	def surveys(self):
+		return self.activitysurvey_set.all()
+
 	def __str__(self):
 		return str(self.activity_name)
 
@@ -293,8 +298,69 @@ class Attendance(models.Model):
 	activity = models.ForeignKey(Activity)
 	complete_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
+	@property
+	def follow_up(self):
+		return self.followup_set.all().first()
+
 	def __str__(self):
 		return str(self.activity)
+
+class FollowUp(models.Model):
+	attendance = models.ForeignKey(Attendance)
+	follow_up_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+	apply_goals = models.TextField(blank=True, null=True)
+	use_skills = models.TextField(blank=True, null=True)
+	compare_before = models.TextField(blank=True, null=True)
+	affected_life = models.TextField(blank=True, null=True)
+
+	def __str__(self):
+		return str(self.attendance)
+	
+class ActivitySurvey(models.Model):
+	activity = models.ForeignKey(Activity)
+	survey_complete_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+
+	NEEDS_IMPROVE = models.BooleanField(default = False)
+	INTERESTING = models.BooleanField(default = False)
+	INCENTIVE = models.BooleanField(default = False)
+	ADVOCATE = models.BooleanField(default = False)
+	OTHER_REC = models.BooleanField(default = False)
+	PEOPLE = models.BooleanField(default = False)
+
+	KNOWLEDGE_CHOICES = (
+		('NO', 'No knowledge'),
+		('A_LITTLE', 'A little knowledge'),
+		('SOME', 'Some knowledge'),
+		('A_LOT', 'A lot of knowledge'),
+		('ALL', 'All the knowledge I need'),
+	)
+	
+	knowledge_before = models.CharField(max_length = 8, choices = KNOWLEDGE_CHOICES, blank=True, null=True)
+	knowledge_after = models.CharField(max_length = 8, choices = KNOWLEDGE_CHOICES, blank=True, null=True)
+
+	CONFIDENT_CHOICES = (
+		('NOT_AT_ALL', 'Not at all confident'),
+		('SIGHTLY', 'Slightly confident'),
+		('SOMEWHAT', 'Somewhat confident'),
+		('MODERATELY', 'Moderately confident'),
+		('EXTREMELY', 'Extremely confident'),
+	)
+
+	confident_before = models.CharField(max_length = 10, choices = CONFIDENT_CHOICES, blank=True, null=True)
+	confident_after = models.CharField(max_length = 10, choices = CONFIDENT_CHOICES, blank=True, null=True)
+
+	comments = models.TextField(blank=True, null=True)
+
+	UNIT_CHOICES = (
+		('SUPPORTIVE', 'Supportive Housing'),
+		('MARIF', 'MARIF'),
+		('STUDIO', 'Studio'),
+	)
+	
+	unit_type = models.CharField(max_length = 10, choices=UNIT_CHOICES, blank=True, null=True)
+
+	def __str__(self):
+		return str(self.activity) + 'survey' + str(self.pk)
 
 class ChildAttendance(models.Model):
 	child = models.ForeignKey(Child)
