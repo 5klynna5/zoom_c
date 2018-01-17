@@ -10,22 +10,22 @@ def monthly_numbers(request):
 
 @login_required(login_url='/login/')
 def ymca_visits(request):
-	visits = YMCA.objects.all()
+	visits = YMCA.objects.all().order_by('-pk')
 	return render(request, 'zoom_numbers/ymca_visits.html', {'visits': visits})
 
 @login_required(login_url='/login/')
 def police_calls(request):
-	calls = PoliceCalls.objects.all()
+	calls = PoliceCalls.objects.all().order_by('-pk')
 	return render(request, 'zoom_numbers/police_calls.html', {'calls': calls})
 
 @login_required(login_url='/login/')
 def food_shelf_visits(request):
-	visits = FoodShelf.objects.all()
+	visits = FoodShelf.objects.all().order_by('-pk')
 	return render(request, 'zoom_numbers/food_shelf_visits.html', {'visits': visits})
 
 @login_required(login_url='/login/')
 def questions_of_month(request):
-	questions = QuestionMonth.objects.all()
+	questions = QuestionMonth.objects.all().order_by('-pk')
 	return render(request, 'zoom_numbers/questions_of_month.html', {'questions': questions})
 
 @login_required(login_url='/login/')

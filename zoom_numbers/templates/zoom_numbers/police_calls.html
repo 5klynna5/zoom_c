@@ -25,7 +25,14 @@
 	<thead>
 		<tr>
 			<th class="text-left">Month</th>
-			<th class="text-left">Number of noise complaint calls</th>
+			<th class="text-left">Total calls</th>
+			<th class="text-left">DOMESTIC</th>
+			<th class="text-left">DISTURBANCE</th>
+			<th class="text-left">DRUG</th>
+			<th class="text-left">VIOLENCE</th>
+			<th class="text-left">ASSAULT</th>
+			<th class="text-left">THEFT</th>
+			<th class="text-left">OTHER </th>
 		</tr>
 	</thead>
 
@@ -33,7 +40,14 @@
 	{% for month in calls %}
 		<tr>
 			<td class="text-left"> {{ month }} </td>
-			<td class="text-left"> {{ month.num_noise_calls }} </td>
+			<td class="text-left"> {{ month.total_calls }} </td>
+			<td class="text-left"> {{ month.domestic }} </td>
+			<td class="text-left"> {{ month.disturbance }} </td>
+			<td class="text-left"> {{ month.drug }} </td>
+			<td class="text-left"> {{ month.violence }} </td>
+			<td class="text-left"> {{ month.assault }} </td>
+			<td class="text-left"> {{ month.theft }} </td>
+			<td class="text-left"> {{ month.other }} </td>
 		</tr> 
 	{% endfor %}
 	</tbody>

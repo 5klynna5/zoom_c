@@ -69,8 +69,26 @@ class PoliceCalls(models.Model):
 
 	month = models.CharField(max_length = 3, choices = MONTH_CHOICES)
 	year = models.PositiveSmallIntegerField()
-	num_noise_calls = models.SmallIntegerField(default = 0)
-	
+
+	domestic = models.PositiveSmallIntegerField(blank=True, null=True)
+	disturbance = models.PositiveSmallIntegerField(blank=True, null=True)
+	drug = models.PositiveSmallIntegerField(blank=True, null=True)
+	violence = models.PositiveSmallIntegerField(blank=True, null=True)
+	assault = models.PositiveSmallIntegerField(blank=True, null=True)
+	theft = models.PositiveSmallIntegerField(blank=True, null=True)
+	health = models.PositiveSmallIntegerField(blank=True, null=True)
+	other = models.PositiveSmallIntegerField(blank=True, null=True)
+
+	@property
+	def total_calls(self):
+		calls_sum = 0
+		for item in [self.domestic, self.disturbance, self.drug, self.violence, self.assault, self.theft, self.health, self.other]:
+			if item is not None:
+				calls_sum = calls_sum + item
+			else:
+				calls_sum = calls_sum + 0
+		return calls_sum
+		
 	def __str__(self):
 		return str(self.month) + " " + str(self.year)
 

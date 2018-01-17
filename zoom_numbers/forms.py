@@ -17,7 +17,7 @@ class PoliceCallsForm(forms.ModelForm):
 
     class Meta:
         model = PoliceCalls
-        fields = ('month', 'year', 'num_noise_calls')
+        fields = ('month', 'year', 'domestic', 'disturbance', 'drug', 'violence', 'assault', 'theft', 'health', 'other')
 
 class QuestionMonthForm(forms.ModelForm):
 
