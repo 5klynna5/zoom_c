@@ -1,6 +1,12 @@
 {% extends 'zoom_numbers/base.html' %}
 
 {% block content %}
+
+<div id = "header">
+	<a href="{% url 'ymca_visits' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to YMCA Visits Summary</a>
+	<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
     <h1>YMCA Visits</h1>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}

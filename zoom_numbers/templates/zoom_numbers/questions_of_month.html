@@ -7,16 +7,18 @@
 	<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
-<h1>Visits to the Food Shelf
+
+<h1>Questions of the Month
 	<div id = "edit">
-		<a class = "btn btn-default" href="{% url 'food_shelf_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a month's food shelf records</a>
+		<a class = "btn btn-default" href="{% url 'question_month_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a Question of the Month</a>
 	</div>
 </h1>
+
 
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Food Shelf Visits</title>
+	<title>Questions of the Month</title>
 	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
 </head>
 
@@ -25,19 +27,21 @@
 	<thead>
 		<tr>
 			<th class="text-left">Month</th>
-			<th class="text-left">Number of visitors</th>
+			<th class="text-left">Question</th>
 		</tr>
 	</thead>
 
 	<tbody class="table-hover">
-	{% for month in visits %}
+	{% for question in questions %}
 		<tr>
-			<td class="text-left"> {{ month }} </td>
-			<td class="text-left"> {{ month.number_visits }} </td>
+			<td class="text-left"> {{ question.month }}, {{question.year}} </td>
+			<td class="text-left"> <a href = "{% url 'question_month_detail' pk=question.pk %}"> {{ question }} </a></td>
 		</tr> 
 	{% endfor %}
 	</tbody>
 	</table>
 </div> 
+
+
 
 {% endblock %}

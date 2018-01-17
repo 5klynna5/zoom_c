@@ -420,3 +420,4 @@ class ExitInterview(models.Model):
 	def __str__(self):
 		return str(self.household)
 
+

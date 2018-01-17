@@ -1,0 +1,59 @@
+{% extends 'zoom_numbers/base.html' %}
+
+{% block content %}
+
+<div id = "header">
+	<a href="{% url 'questions_of_month' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Questions of the Month Summary</a>
+	<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+
+<h1> {{question_month}} </h1>
+
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Questions of the Month</title>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+</head>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Response Category</th>
+            <th class="text-left">Number of Responses</th>
+            <th class="text-left">Percent of Responses</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+		<tr>
+			<td class="text-left"> {{ question_month.category_one}} </td>
+            <td class="text-left"> {{question_month.category_one_count}} </td>
+            <td class="text-left"> {{ question_month.cat_one_percent }}% </td>
+        </tr> 
+        <tr>
+            <td class="text-left"> {{ question_month.category_two}} </td>
+            <td class="text-left"> {{question_month.category_two_count}} </td>
+            <td class="text-left"> {{question_month.cat_two_percent}}% </td>
+        </tr>
+        <tr>
+            <td class="text-left"> {{ question_month.category_three}} </td>
+            <td class="text-left"> {{question_month.category_three_count}} </td>
+            <td class="text-left"> {{question_month.cat_three_percent}}% </td>
+        </tr> 
+        <tr>
+            <td class="text-left"> {{ question_month.category_four}} </td>
+            <td class="text-left"> {{question_month.category_four_count}} </td>
+            <td class="text-left"> {{question_month.cat_four_percent}}% </td>
+        </tr> 
+	</tbody>
+	</table>
+</div> 
+<br>
+
+
+
+{% endblock %}

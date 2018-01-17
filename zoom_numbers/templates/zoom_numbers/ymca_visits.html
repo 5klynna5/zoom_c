@@ -2,11 +2,16 @@
 
 {% block content %}
 
-<div class = "top">Visits to the YMCA</div>
-
-<div class = "add">
-	<a href="{% url 'ymca_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a month's YMCA records</a>
+<div id = "header">
+	<a href="{% url 'monthly_numbers' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Monthly Numbers Page</a>
+	<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
+
+<h1>Visits to the YMCA
+	<div id = "edit">
+		<a class = "btn btn-default" href="{% url 'ymca_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a month's YMCA records</a>
+	</div>
+</h1>
 
 <html lang="en">
 <head>

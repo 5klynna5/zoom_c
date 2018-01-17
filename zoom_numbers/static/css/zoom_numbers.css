@@ -37,6 +37,10 @@ width: 25vw;
 float: right;
 }
 
+#edit {
+  float: right;
+  font-size: 100%;
+}
 
 body {
     font-family: "Avenir Next", Helvetica, sans-serif;
