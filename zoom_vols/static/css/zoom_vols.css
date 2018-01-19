@@ -37,8 +37,10 @@ float: right;
   border-radius: 10px;
 }
 
+
 #edit {
-  float: left;
+  float: right;
+  font-size: 100%;
 }
 
 .dashboard {

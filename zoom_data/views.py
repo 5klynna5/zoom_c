@@ -29,8 +29,21 @@ def home(request):
     children_sh_list =  [child.pk for child in Child.objects.all() if (child.household in households_sh)]
     children_sh = Child.objects.filter(pk__in=children_sh_list)
     children_marif_list =  [child.pk for child in Child.objects.all() if (child.household in households_marif)]
-    children_marif = Child.objects.filter(pk__in=children_marif_list)
-    return render(request,'zoom_data/home.html', {'households': households, 'households_sh': households_sh, 'households_marif': households_marif, 'households_studio': households_studio, 'residents' : residents, 'children' : children, 'residents_male' : residents_male, 'residents_female': residents_female, 'children_male': children_male, 'children_female' : children_female, 'residents_sh': residents_sh, 'children_sh': children_sh, 'residents_marif': residents_marif, 'children_marif': children_marif, 'residents_studio' : residents_studio})
+    children_marif = Child.objects.filter(pk__in=children_marif_list) 
+    res_stays_sum = 0
+    for item in residents:
+        res_stays_sum = res_stays_sum + item.length_of_stay
+    ave_stays_residents = res_stays_sum / residents.count()
+    household_stays_sum = 0
+    for item in households:
+        household_stays_sum = household_stays_sum + item.length_of_stay
+    ave_stays_households = household_stays_sum / households.count()
+    child_stays_sum = 0
+    for item in children:
+        child_stays_sum = child_stays_sum + item.length_of_stay
+    ave_stays_children = child_stays_sum / children.count()
+    #vols_combined = dict(Counter(total_vols_month) + Counter(group_vols_month))
+    return render(request,'zoom_data/home.html', {'ave_stays_children' : ave_stays_children, 'ave_stays_residents': ave_stays_residents, 'ave_stays_households' : ave_stays_households, 'households': households, 'households_sh': households_sh, 'households_marif': households_marif, 'households_studio': households_studio, 'residents' : residents, 'children' : children, 'residents_male' : residents_male, 'residents_female': residents_female, 'children_male': children_male, 'children_female' : children_female, 'residents_sh': residents_sh, 'children_sh': children_sh, 'residents_marif': residents_marif, 'children_marif': children_marif, 'residents_studio' : residents_studio})
 
 @login_required(login_url='/login/')
 def activities_list(request):

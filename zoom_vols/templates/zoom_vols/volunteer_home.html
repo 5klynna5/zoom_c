@@ -7,18 +7,51 @@
     <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
-<div class = "top">ZOOM Volunteers</div>
-
 <h1>
     <span><a href="{% url 'volunteer_list' %}" class = "btn btn-default">List of Volunteers</a></span>
     <span><a href="{% url 'hours_new' %}" class = "btn btn-default">Add Hours for Individual Volunteer</a></span>
+    <span><a href="{% url 'volunteer_group_list' %}" class = "btn btn-default">List of Volunteer Groups</a></span>
     <span><a href="{% url 'group_hours_new' %}" class = "btn btn-default">Add Hours for Volunteer Group</a></span>
 </h1>
 
-<div class = "dashboard">
-    Total individual volunteer hours this month: {{total_vol_hours_month.hours_num__sum}}
-    <br>Total group volunteer hours this month: {{total_group_hours_month.hours_num__sum}} This needs to be fixed!
+<div class = "top">
+        ZOOM Volunteer Dashboard
 </div>
+
+<html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        </head>
+        
+        <div class = "content">
+            <table class="table-fill">
+            <thead>
+                <tr>
+                    <th class="text-left"></th>
+                    <th class="text-left">Number this month</th>
+                    <th class = "text-left">Hours this month</th>
+                </tr>
+            </thead>
+        
+            <tbody class="table-hover">
+                <tr>
+                    <td class="text-left"> Individual Volunteers </td>
+                    <td class = "text-left">{{total_vols_month.count}}</td>
+                    <td class="text-left"> {{total_vol_hours_month.sum}} </td>
+                </tr> 
+                <tr>
+                    <td class="text-left"> Volunteers in Groups </td>
+                    <td class = "text-left">{{group_vols_month.count}}</td>
+                    <td class="text-left"> {{total_group_hours_month}} </td>
+                </tr> 
+                <tr>
+                    <td class="text-left"> All Volunteers </td>
+                    <td class = "text-left">{{vols_combined.count}}</td>
+                    <td class="text-left"> {{hours_combined.sum}} </td>
+                </tr> 
+            </tbody>
+            </table>
 
 
 {% endblock %}

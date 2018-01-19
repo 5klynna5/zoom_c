@@ -2,13 +2,6 @@ from django.db import models
 from django.db.models import Sum
 from django.utils import timezone
 
-class Activity(models.Model):
-
-	activity = models.CharField(max_length=15)
-
-	def __str__(self):
-		return str(self.activity)
-
 class Volunteer(models.Model):
 	volunteer_id = models.AutoField(primary_key=True)
 	first_name = models.CharField(max_length=20)
@@ -48,7 +41,7 @@ class Volunteer(models.Model):
 
 	contact_pref = models.CharField(max_length=16, choices=CONTACT_CHOICES, blank=True, null=True)
 
-	interests = models.ManyToManyField(Activity)
+	interests = models.TextField(blank=True, null=True)
 
 	date_updated = models.DateTimeField(blank=True, null=True)
 
@@ -79,7 +72,7 @@ class Hours(models.Model):
 	volunteer = models.ForeignKey(Volunteer)
 	date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.")
 	hours_num = models.PositiveSmallIntegerField()
-	volunteer_activity = models.ForeignKey(Activity, blank=True, null=True)
+	volunteer_activity = models.CharField(max_length = 30, blank=True, null=True)
 	
 	def __str__(self):
 		return str(self.volunteer) + ' ' + str(self.date) + ' ' + str(self.volunteer_activity)
@@ -89,7 +82,12 @@ class VolunteerGroup(models.Model):
 	num_volunteers = models.SmallIntegerField(blank=True, null=True)
 	date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.")
 	hours_num = models.PositiveSmallIntegerField()
-	volunteer_activity = models.ForeignKey(Activity, blank=True, null=True)
+	volunteer_activity = models.CharField(max_length = 30, blank=True, null=True)
+
+	@property
+	def total_group_hours(self):
+		hours = self.num_volunteers * self.hours_num
+		return hours
 
 	def __str__(self):
 		return str(self.group_org) + ' ' + str(self.date)

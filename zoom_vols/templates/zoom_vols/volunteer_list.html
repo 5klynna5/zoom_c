@@ -7,14 +7,16 @@
     <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
-<h1>Active Volunteers</h1>
-
-<a href="{% url 'volunteer_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a volunteer</a>
+<h1>Active Volunteers
+	<div id = "edit">
+		<a class = "btn btn-default" href="{% url 'volunteer_new' %}"><span class="glyphicon glyphicon-plus"></span>Add a volunteer</a>
+	</div>
+</h1>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Table Style</title>
+	<title>Volunteers</title>
 	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
 </head>
 

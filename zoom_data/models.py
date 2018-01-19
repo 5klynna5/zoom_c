@@ -143,6 +143,7 @@ class Goal(models.Model):
 class Household(models.Model):
 	household_name = models.CharField(max_length = 20, blank=True, null=True)
 	unit_num = models.PositiveSmallIntegerField(blank=True, null=True)
+	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
 	UNIT_CHOICES = (
 		('SUPPORTIVE', 'Supportive Housing'),
@@ -170,6 +171,14 @@ class Household(models.Model):
 			return None
 		else:
 			return self.exitinterview_set.all().first().exit_date
+
+	@property
+	def length_of_stay(self):
+		import datetime
+		if self.exit_date is None:
+			return (datetime.date.today() - self.move_in_date).days
+		else:
+			return (self.exit_date - self.move_in_date).days
 	
 	def __str__(self):
 		return str(self.household_name)
@@ -225,10 +234,19 @@ class Child(models.Model):
 	)
 
 	ethnicity = models.CharField(max_length = 12, choices = ETHNICITY_CHOICES, blank=True, null=True)
+	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
 	@property
 	def activities(self):
 		return self.childattendance_set.all()
+
+	@property
+	def length_of_stay(self):
+		import datetime
+		if self.household.exit_date is None:
+			return (datetime.date.today() - self.move_in_date).days
+		else:
+			return (self.household.exit_date - self.move_in_date).days
 
 	@property
 	def age(self):

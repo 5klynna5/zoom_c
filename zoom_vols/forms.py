@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Hours, Volunteer, Activity, VolunteerGroup
+from .models import Hours, Volunteer, VolunteerGroup
 
 class HoursForm(forms.ModelForm):
 

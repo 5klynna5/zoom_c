@@ -1,0 +1,53 @@
+{% extends 'zoom_vols/base.html' %}
+
+{% block content %}
+
+<div id = "header">
+    <a href="{% url 'volunteer_home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Volunteer Home</a>
+    <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1>Volunteer Groups
+	<div id = "edit">
+		<a class = "btn btn-default" href="{% url 'group_hours_new' %}"><span class="glyphicon glyphicon-plus"></span> Add a volunteer group</a>
+	</div>
+</h1>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Volunteer Groups</title>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+</head>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Group Organization</th>
+			<th class="text-left">Activity</th>
+			<th class="text-left">Date</th>
+			<th class="text-left">Number of Volunteers</th>
+			<th class="text-left">Hours of Activity</th>
+			<th class="text-left">Total Volunteer Hours</th>		
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for group in groups %}
+		<tr>
+			<td class="text-left"> {{ group.group_org }} </td>
+			<td class="text-left"> {{ group.volunteer_activity }} </td>
+			<td class="text-left"> {{ group.date }} </td>
+			<td class="text-left"> {{ group.num_volunteers}} </td>
+			<td class="text-left"> {{ group.hours_num }} </td>
+			<td class="text-left"> {{ group.total_group_hours }} </td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+
+	
+
+{% endblock %}

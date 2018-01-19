@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Activity, Volunteer, Hours, VolunteerGroup
+from .models import Volunteer, Hours, VolunteerGroup
 from django.http import HttpResponse
 from django.core import serializers
 
@@ -39,7 +39,6 @@ def export(modeladmin, request, queryset):
 
 admin.site.add_action(export, 'export_selected')
 
-admin.site.register(Activity)
 admin.site.register(Volunteer)
 admin.site.register(Hours)
 admin.site.register(VolunteerGroup)

@@ -1,24 +1,38 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Volunteer, Activity, Hours, VolunteerGroup
+from .models import Volunteer, Hours, VolunteerGroup
 from .forms import HoursForm, VolunteerForm, GroupHoursForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.db.models import Sum, Count
+from collections import Counter
 
 @login_required(login_url='/login/')
 def volunteer_home(request):
     month = datetime.now().month
     year = datetime.now().year
     volunteer_hours_month = Hours.objects.filter(date__month=month).filter(date__year=year)
-    total_vol_hours_month = volunteer_hours_month.aggregate(Sum('hours_num'))
-    total_group_hours_month = VolunteerGroup.objects.filter(date__month=month).filter(date__year=year)
-    return render(request, 'zoom_vols/volunteer_home.html', {'volunteer_hours_month': volunteer_hours_month, 'total_vol_hours_month': total_vol_hours_month, 'total_group_hours_month': total_group_hours_month})
+    total_vol_hours_month = volunteer_hours_month.aggregate(sum = Sum('hours_num'))
+    total_vols_month = volunteer_hours_month.aggregate(count = Count('volunteer', distinct=True))
+    group_hours_month = VolunteerGroup.objects.filter(date__month=month).filter(date__year=year)
+    total_group_hours_month = 0
+    for item in group_hours_month:
+        total_group_hours_month = total_group_hours_month + item.total_group_hours
+    group_vols_month = group_hours_month.aggregate(count = Sum('num_volunteers'))
+    vols_combined = dict(Counter(total_vols_month) + Counter(group_vols_month))
+    hours_combined = Counter(total_vol_hours_month) + Counter({'sum': total_group_hours_month})
+
+    return render(request, 'zoom_vols/volunteer_home.html', {'month': month, 'year' : year, 'vols_combined' : vols_combined, 'hours_combined' : hours_combined, 'volunteer_hours_month': volunteer_hours_month, 'total_vol_hours_month': total_vol_hours_month, 'total_vols_month' : total_vols_month, 'group_hours_month': group_hours_month, 'group_vols_month' : group_vols_month, 'total_group_hours_month' : total_group_hours_month})
 
 @login_required(login_url='/login/')
 def volunteer_list(request):
 	volunteers = Volunteer.objects.all()
 	return render(request, 'zoom_vols/volunteer_list.html', {'volunteers' : volunteers})
+
+@login_required(login_url='/login/')
+def volunteer_group_list(request):
+	groups = VolunteerGroup.objects.all().order_by('-date')
+	return render(request, 'zoom_vols/volunteer_group_list.html', {'groups' : groups})
 
 @login_required(login_url='/login/')
 def volunteer_detail(request, pk):
