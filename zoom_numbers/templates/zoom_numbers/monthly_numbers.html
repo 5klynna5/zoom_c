@@ -7,9 +7,6 @@
     <span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
 </div>
 
-<div class = "top">
-	Monthly Numbers
-</div>
 
 <h1>
     <span><a href="{% url 'ymca_visits' %}" class = "btn btn-default">YMCA visits</a></span>
@@ -17,5 +14,87 @@
     <span><a href="{% url 'police_calls' %}" class = "btn btn-default">Police Calls</a></span>
     <span><a href="{% url 'questions_of_month' %}" class = "btn btn-default">Questions of the Month</a></span>
 </h1>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Monthly Numbers</title>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+</head>
+
+<div class = "top">
+    Most Recent Monthly Numbers Data
+</div>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+            <th class="text-left">Type of Data</th>
+			<th class="text-left">Month</th>
+			<th class="text-left">Number</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+		<tr>
+            <td class="text-left"> Police Calls </td>
+			<td class="text-left"> {{police_calls}} </td>
+			<td class="text-left"> {{police_calls.total_calls}} </td>
+        </tr> 
+        <tr>
+            <td class="text-left"> YMCA Visits </td>
+            <td class="text-left"> {{ymca_visits}} </td>
+            <td class="text-left"> {{ymca_visits.number_visits}} </td>
+		</tr> 
+		<tr>
+            <td class="text-left"> Food Shelf Visits </td>
+            <td class="text-left"> {{food_shelf_visits}} </td>
+            <td class="text-left"> {{food_shelf_visits.number_visits}} </td>
+        </tr> 
+	</tbody>
+	</table>
+</div> 
+<br>
+
+<div class = "top">
+	Most Recent Question of the Month - <i>{{question_month}}</i>
+</div>
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Response Category</th>
+            <th class="text-left">Number of Responses</th>
+            <th class="text-left">Percent of Responses</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+		<tr>
+			<td class="text-left"> {{ question_month.category_one}} </td>
+            <td class="text-left"> {{question_month.category_one_count}} </td>
+            <td class="text-left"> {{ question_month.cat_one_percent }}% </td>
+        </tr> 
+        <tr>
+            <td class="text-left"> {{ question_month.category_two}} </td>
+            <td class="text-left"> {{question_month.category_two_count}} </td>
+            <td class="text-left"> {{question_month.cat_two_percent}}% </td>
+        </tr>
+        <tr>
+            <td class="text-left"> {{ question_month.category_three}} </td>
+            <td class="text-left"> {{question_month.category_three_count}} </td>
+            <td class="text-left"> {{question_month.cat_three_percent}}% </td>
+        </tr> 
+        <tr>
+            <td class="text-left"> {{ question_month.category_four}} </td>
+            <td class="text-left"> {{question_month.category_four_count}} </td>
+            <td class="text-left"> {{question_month.cat_four_percent}}% </td>
+        </tr> 
+	</tbody>
+	</table>
+</div> 
+<br>
 
 {% endblock %}

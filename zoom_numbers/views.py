@@ -6,7 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/login/')
 def monthly_numbers(request):
-	return render(request, 'zoom_numbers/monthly_numbers.html')
+    ymca_visits = YMCA.objects.all().order_by('-pk').first()
+    police_calls = PoliceCalls.objects.all().order_by('-pk').first()
+    food_shelf_visits = FoodShelf.objects.all().order_by('-pk').first()
+    question_month = QuestionMonth.objects.all().order_by('-pk').first()
+    return render(request, 'zoom_numbers/monthly_numbers.html', {'police_calls' : police_calls, 'ymca_visits' : ymca_visits, 'food_shelf_visits' : food_shelf_visits, 'question_month' : question_month})
 
 @login_required(login_url='/login/')
 def ymca_visits(request):
