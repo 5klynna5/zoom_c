@@ -29,6 +29,7 @@
 			<th class="text-left">Unit Type</th>
 			<th class="text-left">Exit Date</th>
 			<th class="text-left">Children</th>
+			<th class="text-left">Options</th>
 		</tr>
 	</thead>
 
@@ -50,8 +51,6 @@
 			<td class="text-left">
 				{{household.exit_date}}
 				<br>
-				<br>
-				<a class = "btn btn-default" href="{% url 'exit_interview_view' pk=household.exit_interview.pk %}">View Exit Interview</a>
 			</td>
 			<td class="text-left">
 					{% for person in household.children %}
@@ -59,6 +58,12 @@
 						<a href="{% url 'child_detail' pk=person.pk %}"></a>{{person}}</a><br>
 					{% endfor %}
 					<br>
+			</td>
+			<td class = "text-left">
+				<a class = "btn btn-default" href="{% url 'exit_interview_view' pk=household.exit_interview.pk %}"><span class = 'glyphicon glyphicon-eye-open'></span> View Exit Interview</a>
+				<br>
+				<br>
+				<a class = "btn btn-default" href="{% url 'household_edit' pk=household.pk %}"><span class = 'glyphicon glyphicon-pencil'></span> Edit Household Info</a>
 			</td>
 		</tr> 
 	{% endfor %}

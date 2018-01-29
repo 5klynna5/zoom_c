@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'', include('zoom_data.urls')),
     url(r'', include('zoom_numbers.urls')),
     url(r'', include('zoom_vols.urls')),
+    url(r'', include('zoom_funds_events.urls')),
 ]

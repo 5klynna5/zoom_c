@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Resident, Goal, Progress, Contact, Activity, ActivitySurvey, Attendance, Child, ChildAttendance, Household, ExitInterview, FollowUp
+from .models import Resident, Goal, Progress, Contact, Activity, ActivitySurvey, Attendance, Child, ChildAttendance, Household, ExitInterview, FollowUp, Annual
 from django.http import HttpResponse
 from django.core import serializers
 
@@ -52,3 +52,4 @@ admin.site.register(Household)
 admin.site.register(ExitInterview)
 admin.site.register(FollowUp)
 admin.site.register(ActivitySurvey)
+admin.site.register(Annual)

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Resident, Goal, Progress, Household, Child, Activity, ExitInterview, FollowUp, Attendance
-from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, ActivitySurveyForm, AttendanceForm, ChildAttendanceForm, ExitForm, FollowUpForm
+from .models import Resident, Goal, Progress, Household, Child, Activity, ExitInterview, FollowUp, Attendance, Annual, CaseNotes
+from .forms import GoalForm, ResidentForm, ProgressForm, HouseholdForm, ChildForm, PermissionsForm, ActivityForm, ActivitySurveyForm, AttendanceForm, ChildAttendanceForm, ExitForm, FollowUpForm, AnnualForm, CaseNotesForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import datetime
@@ -98,6 +98,34 @@ def follow_up_new(request, pk):
     else:
         form = FollowUpForm()
     return render(request, 'zoom_data/follow_up_new.html', {'form': form})
+
+@login_required(login_url='/login/')
+def annual_new(request, pk):
+    resident = get_object_or_404(Resident, pk=pk)
+    if request.method == "POST":
+        form = AnnualForm(request.POST)
+        if form.is_valid():
+            annual = form.save(commit=False)
+            annual.resident = resident
+            annual.save()
+            return redirect('resident_detail', pk = resident.pk)
+    else:
+        form = AnnualForm()
+    return render(request, 'zoom_data/annual_new.html', {'form': form})
+
+@login_required(login_url='/login/')
+def case_notes_new(request, pk):
+    resident = get_object_or_404(Resident, pk=pk)
+    if request.method == "POST":
+        form = CaseNotesForm(request.POST)
+        if form.is_valid():
+            casenotes = form.save(commit=False)
+            casenotes.resident = resident
+            casenotes.save()
+            return redirect('resident_detail', pk = resident.pk)
+    else:
+        form = CaseNotesForm()
+    return render(request, 'zoom_data/case_notes_new.html', {'form': form})
 
 @login_required(login_url='/login/')
 def household_new(request):

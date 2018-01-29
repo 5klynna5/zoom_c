@@ -21,6 +21,7 @@
 
  <h1> Basic Information
    <div id = "edit">
+      <a class="btn btn-default" href="{% url 'annual_new' pk=resident.pk %}"><span class="glyphicon glyphicon-plus"></span><span>  Add Resident Annual Self Certification </span></a>
       <a class="btn btn-default" href="{% url 'resident_edit' pk=resident.pk %}"><span class="glyphicon glyphicon-pencil"></span><span>  Edit Resident Information</span></a>
     </div>
   </h1> 
@@ -45,6 +46,11 @@
     <br><b>Email: </b> {{resident.contact_preferred.resident_email}}
     <br><b>Contact Preferred: </b> {{resident.contact_preferred.contact_pref}}
   </span>
+<span class = "large-text"> 
+      <b> Student?: </b> {{resident.annual.student_status}} 
+      <br><b> Employed:? </b> {{resident.annual.employment_status}}
+      <br><b>Annual Income: </b> $ {{resident.annual.annual_income}}
+    </span>
 <span class = "large-text-no-space"> 
     <b>Mailing address:</b>
     <br>{{resident.contact_preferred.mailing_address_line_one}}
@@ -65,7 +71,8 @@
     <tr>
       <th class="text-left">Goal</th>
       <th class="text-left">Progress</th>
-      <th class="text-left">Comments</th>
+      <th class="text-left">Goal Comments</th>
+      <th class="text-left">Progress Notes</t>
     </tr>
   </thead>
 
@@ -97,6 +104,7 @@
         </svg>
       </td>
       <td class = "text-left">{{goal.goal_explain}}</td>
+      <td class = "text-left">{{goal.most_recent_progress.notes_progress}}</td>
     </tr> 
   {% endfor %}
   </tbody>
@@ -180,5 +188,38 @@
                 </tr> 
             </tbody>
             </table>
+
+<h1>Case Notes
+  <div id = "edit">
+      <a class="btn btn-default" href="{% url 'case_notes_new' pk=resident.pk %}"><span class="glyphicon glyphicon-pencil"></span><span>  New case notes</span></a>
+  </div>
+</h1>
+              
+          
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+  </head>
+                      
+<div class = "content">
+  <table class="table-fill">
+    <thead>
+      <tr>
+        <th class="text-left">Date</th>
+        <th class="text-left">Notes</th>
+      </tr>
+    </thead>
+                      
+    <tbody class="table-hover">
+      {% for notes in resident.case_notes %}
+      <tr>
+        <td class="text-left">{{notes.date_notes}} </td>
+        <td class="text-left"> {{notes.notes}} </td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>            
 
 {% endblock %}

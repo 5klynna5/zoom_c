@@ -66,7 +66,10 @@ class Resident(models.Model):
 	def age(self):
 		import datetime
 		return int((datetime.date.today() - self.dob).days / 365.25  )
-
+	
+	@property
+	def annual(self):
+		return self.annual_set.all().order_by('-self_cert_date').first()
 
 	@property
 	def length_of_stay(self):
@@ -75,6 +78,10 @@ class Resident(models.Model):
 			return (datetime.date.today() - self.resident_move_in).days
 		else:
 			return (self.household.exit_date - self.resident_move_in).days
+	
+	@property
+	def case_notes(self):
+		return self.casenotes_set.all()
 
 	def __str__(self):
 		return (self.resident_last_name) + ', ' + (self.resident_first_name)
@@ -137,6 +144,10 @@ class Goal(models.Model):
 	def all_progress(self):
 		return self.progress_set.all().order_by('-date_progress')
 
+	@property
+	def most_recent_progress(self):
+		return self.progress_set.all().order_by('-date_progress').first()
+
 	def __str__(self):
 		return str(self.goal_date)+" : "+ str(self.goal_name)
 
@@ -152,6 +163,7 @@ class Household(models.Model):
 	)
 	
 	unit_type = models.CharField(max_length = 10, choices=UNIT_CHOICES, blank=True, null=True)
+	exit_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 	
 	@property
 	def hoh(self):
@@ -164,14 +176,7 @@ class Household(models.Model):
 	@property
 	def exit_interview(self):
 		return self.exitinterview_set.all().first()
-
-	@property
-	def exit_date(self):
-		if self.exitinterview_set.all().first() is None:
-			return None
-		else:
-			return self.exitinterview_set.all().first().exit_date
-
+	
 	@property
 	def length_of_stay(self):
 		import datetime
@@ -390,7 +395,7 @@ class ChildAttendance(models.Model):
 
 class ExitInterview(models.Model):
 	household = models.ForeignKey(Household)
-	exit_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+	exit_interview_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
 	SHELTER_CHOICES = (
 		('FRIEND_FAMILY','Staying with friend or family'),
@@ -438,4 +443,29 @@ class ExitInterview(models.Model):
 	def __str__(self):
 		return str(self.household)
 
+class Annual(models.Model):
+	resident = models.ForeignKey(Resident)
+	self_cert_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+	
+	annual_income = models.SmallIntegerField(blank=True, help_text = "in U.S. dollars")
 
+	YES_NO_CHOICES = {
+		('Yes', 'YES'),
+		('No', 'NO'),
+	}
+
+	student_status = models.CharField(max_length = 3, choices = YES_NO_CHOICES, blank=True, null=True)
+
+	employment_status = models.CharField(max_length = 3, choices = YES_NO_CHOICES, blank=True, null=True)
+
+	def __str__(self):
+		return str(self.resident) + ' ' + str(self.self_cert_date)
+
+class CaseNotes(models.Model):
+	resident = models.ForeignKey(Resident)
+	date_notes = models.DateField(help_text="Enter the date notes were taken. Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+
+	notes = models.TextField(blank=True, null=True)
+
+	def __str__(self):
+		return str(self.resident) + ' ' + str(self.date_notes)

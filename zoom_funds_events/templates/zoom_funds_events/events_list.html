@@ -1,0 +1,51 @@
+{% extends 'zoom_funds_events/base.html' %}
+
+{% block content %}
+
+<html lang="en">
+		<head>
+			<meta charset="utf-8" />
+			<title>Table Style</title>
+			<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+		</head>
+
+<div id = "header">
+		<a href="{% url 'home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Home Page</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1>Events
+	<div id = "edit">
+		<a class = "btn btn-default"  href = "{% url 'event_new' %}"><span class = "glyphicon glyphicon-plus"></span> Add an event</a>
+	</div>
+
+</h1>
+
+
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Event</th>
+			<th class="text-left">Date</th>
+			<th class="text-left">Number of Attendees</th>
+			<th class="text-left">Description</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for event in events %}
+		<tr>
+			<td class="text-left">{{ event }}</td>
+			<td class="text-left"> {{ event.date }}</td>
+			<td class="text-left"> {{ event.num_attendees }} </td>
+			<td class="text-left"> {{ event.description }} </td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+<br>
+
+{% endblock %}

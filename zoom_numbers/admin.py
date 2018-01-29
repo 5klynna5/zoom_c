@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import YMCA, FoodShelf
+from .models import YMCA, FoodShelf, PoliceCalls, QuestionMonth
 from django.http import HttpResponse
 from django.core import serializers
 
@@ -42,3 +42,5 @@ admin.site.add_action(export, 'export_selected')
 
 admin.site.register(YMCA)
 admin.site.register(FoodShelf)
+admin.site.register(PoliceCalls)
+admin.site.register(QuestionMonth)

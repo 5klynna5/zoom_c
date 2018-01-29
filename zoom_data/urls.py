@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^resident/edit/(?P<pk>\d+)/$', views.resident_edit, name = 'resident_edit'),
     url(r'^household/edit/(?P<pk>\d+)/$', views.household_edit, name = 'household_edit'),
     url(r'^resident/(?P<pk>\d+)/add_permissions/$', views.permissions_new, name = 'permissions_new'),
+    url(r'^resident/(?P<pk>\d+)/add_case_notes/$', views.case_notes_new, name = 'case_notes_new'),
+    url(r'^resident/(?P<pk>\d+)/annual_self_certification/$', views.annual_new, name = 'annual_new'),
 ]

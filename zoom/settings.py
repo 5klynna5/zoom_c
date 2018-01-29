@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'zoom_data',
     'zoom_numbers',
     'zoom_vols',
+    'zoom_funds_events'
 )
 
 MIDDLEWARE_CLASSES = (

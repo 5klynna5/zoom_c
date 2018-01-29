@@ -1,0 +1,55 @@
+{% extends 'zoom_funds_events/base.html' %}
+
+{% block content %}
+
+<html lang="en">
+		<head>
+			<meta charset="utf-8" />
+			<title>Table Style</title>
+			<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+		</head>
+
+<div id = "header">
+		<a href="{% url 'home' %}"><span class="glyphicon glyphicon-triangle-left"></span> Return to Home Page</a>
+		<span><img id = "zoom_logo" src="/static/images/ZOOM-logo.png"></span>
+</div>
+
+<h1>Grants
+	<div id = "edit">
+		<a class = "btn btn-default"  href = "{% url 'grant_new' %}"><span class = "glyphicon glyphicon-plus"></span> Add a grant</a>
+	</div>
+
+</h1>
+
+
+
+<div class = "content">
+	<table class="table-fill">
+	<thead>
+		<tr>
+			<th class="text-left">Funder</th>
+			<th class="text-left">Grant Title</th>
+			<th class="text-left">Date Applied</th>
+			<th class="text-left">Date Funds Received</th>
+			<th class="text-left">Funding Requirements</th>
+			<th class="text-left">Grant term</th>
+		</tr>
+	</thead>
+
+	<tbody class="table-hover">
+	{% for grant in grants %}
+		<tr>
+			<td class="text-left">{{ grant.funder }}</td>
+			<td class="text-left"> {{ grant.grant_title }}</td>
+			<td class="text-left"> {{ grant.date_applied }} </td>
+			<td class="text-left"> {{ grant.date_funds_received }} </td>
+			<td class="text-left"> {{ grant.funding_requirements }} </td>
+			<td class="text-left"> {{ grant.grant_start_date }} - {{grant.grant_end_date}} </td>
+		</tr> 
+	{% endfor %}
+	</tbody>
+	</table>
+</div> 
+<br>
+
+{% endblock %}

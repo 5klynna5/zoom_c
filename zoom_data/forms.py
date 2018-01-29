@@ -1,5 +1,5 @@
 from django import forms
-from .models import Resident, Goal, Progress, Household, Child, Contact, Activity, ActivitySurvey, Attendance, ChildAttendance, ExitInterview, FollowUp
+from .models import Resident, Goal, Progress, Household, Child, Contact, Activity, ActivitySurvey, Attendance, ChildAttendance, ExitInterview, FollowUp, Annual, CaseNotes
 from django.forms.extras.widgets import SelectDateWidget
 from django.contrib.admin.widgets import AdminDateWidget 
 from functools import partial
@@ -87,3 +87,15 @@ class ActivitySurveyForm(forms.ModelForm):
 		'comments' : 'What other comments or suggestions do you have about this workshop?',
 		'unit_type' : 'At ZOOM I live in a'
 		}
+
+class AnnualForm(forms.ModelForm):
+
+	class Meta:
+		model = Annual
+		exclude = ('resident', )
+
+class CaseNotesForm(forms.ModelForm):
+
+	class Meta:
+		model = CaseNotes
+		exclude = ('resident', )
