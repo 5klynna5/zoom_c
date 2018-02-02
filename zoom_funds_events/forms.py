@@ -11,4 +11,4 @@ class GrantForm(forms.ModelForm):
     
     class Meta:
         model = Grant
-        fields = ('funder', 'grant_title', 'date_applied', 'amount' 'date_funds_received', 'grant_start_date', 'grant_end_date', 'funding_requirements')
+        fields = ('funder', 'grant_title', 'date_applied', 'amount', 'date_funds_received', 'grant_start_date', 'grant_end_date', 'funding_requirements')
