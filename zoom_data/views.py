@@ -8,10 +8,10 @@ from django.db.models import Avg
 
 @login_required(login_url='/login/')
 def home(request):
-    households = Household.objects.filter(exitinterview = None)
-    households_sh = households.filter(unit_type = 'SUPPORTIVE')
-    households_marif = households.filter(unit_type = 'MARIF')
-    households_studio = households.filter(unit_type = 'STUDIO')
+    households = Household.objects.filter(exit_date__isnull=True)
+    households_one_bedroom = households.filter(unit_type = 'SH_ONE_BEDROOM')
+    households_marif = households.filter(unit_type = 'SH_MARIF')
+    households_studio = households.filter(unit_type = 'SH_STUDIO')
     resident_list = [resident.pk for resident in Resident.objects.all() if (resident.household in households)]
     residents = Resident.objects.filter(pk__in=resident_list)
     residents_male = residents.filter(gender = 'MALE')
@@ -20,14 +20,14 @@ def home(request):
     children = Child.objects.filter(pk__in=child_list)
     children_male = children.filter(gender = 'MALE')
     children_female = children.filter(gender = 'FEMALE')
-    residents_sh_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_sh)]
-    residents_sh = Resident.objects.filter(pk__in=residents_sh_list)
+    residents_one_bedroom_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_one_bedroom)]
+    residents_one_bedroom = Resident.objects.filter(pk__in=residents_one_bedroom_list)
     residents_marif_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_marif)]
     residents_marif = Resident.objects.filter(pk__in=residents_marif_list)
     residents_studio_list =  [resident.pk for resident in Resident.objects.all() if (resident.household in households_studio)]
     residents_studio = Resident.objects.filter(pk__in=residents_studio_list)
-    children_sh_list =  [child.pk for child in Child.objects.all() if (child.household in households_sh)]
-    children_sh = Child.objects.filter(pk__in=children_sh_list)
+    children_one_bedroom_list =  [child.pk for child in Child.objects.all() if (child.household in households_one_bedroom)]
+    children_one_bedroom = Child.objects.filter(pk__in=children_one_bedroom_list)
     children_marif_list =  [child.pk for child in Child.objects.all() if (child.household in households_marif)]
     children_marif = Child.objects.filter(pk__in=children_marif_list) 
     res_stays_sum = 0
@@ -43,7 +43,7 @@ def home(request):
         child_stays_sum = child_stays_sum + item.length_of_stay
     ave_stays_children = child_stays_sum / children.count()
     #vols_combined = dict(Counter(total_vols_month) + Counter(group_vols_month))
-    return render(request,'zoom_data/home.html', {'ave_stays_children' : ave_stays_children, 'ave_stays_residents': ave_stays_residents, 'ave_stays_households' : ave_stays_households, 'households': households, 'households_sh': households_sh, 'households_marif': households_marif, 'households_studio': households_studio, 'residents' : residents, 'children' : children, 'residents_male' : residents_male, 'residents_female': residents_female, 'children_male': children_male, 'children_female' : children_female, 'residents_sh': residents_sh, 'children_sh': children_sh, 'residents_marif': residents_marif, 'children_marif': children_marif, 'residents_studio' : residents_studio})
+    return render(request,'zoom_data/home.html', {'ave_stays_children' : ave_stays_children, 'ave_stays_residents': ave_stays_residents, 'ave_stays_households' : ave_stays_households, 'households': households, 'households_one_bedroom': households_one_bedroom, 'households_marif': households_marif, 'households_studio': households_studio, 'residents' : residents, 'children' : children, 'residents_male' : residents_male, 'residents_female': residents_female, 'children_male': children_male, 'children_female' : children_female, 'residents_one_bedroom': residents_one_bedroom, 'children_one_bedroom': children_one_bedroom, 'residents_marif': residents_marif, 'children_marif': children_marif, 'residents_studio' : residents_studio})
 
 @login_required(login_url='/login/')
 def activities_list(request):

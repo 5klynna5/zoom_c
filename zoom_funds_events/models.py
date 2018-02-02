@@ -12,6 +12,7 @@ class Event(models.Model):
 class Grant(models.Model):
     funder = models.CharField(max_length = 20, blank=True, null=True)
     grant_title = models.CharField(max_length = 20, blank=True, null=True)
+    amount = models.PositiveSmallIntegerField(blank=True, null=True)
     date_applied = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
     date_funds_received = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
     grant_start_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)

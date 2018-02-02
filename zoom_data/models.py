@@ -157,12 +157,12 @@ class Household(models.Model):
 	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 
 	UNIT_CHOICES = (
-		('SUPPORTIVE', 'Supportive Housing'),
-		('MARIF', 'MARIF'),
-		('STUDIO', 'Studio'),
+		('SH_ONE_BEDROOM', 'One Bedroom'),
+		('SH_MARIF', 'MARIF'),
+		('SH_STUDIO', 'Studio'),
 	)
 	
-	unit_type = models.CharField(max_length = 10, choices=UNIT_CHOICES, blank=True, null=True)
+	unit_type = models.CharField(max_length = 14, choices=UNIT_CHOICES, blank=True, null=True)
 	exit_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 	
 	@property

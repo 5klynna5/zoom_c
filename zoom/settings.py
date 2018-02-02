@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'zoom_data',
     'zoom_numbers',
     'zoom_vols',
-    'zoom_funds_events'
+    'zoom_funds_events',
+    'django.contrib.humanize'
 )
 
 MIDDLEWARE_CLASSES = (

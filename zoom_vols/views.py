@@ -19,8 +19,14 @@ def volunteer_home(request):
     for item in group_hours_month:
         total_group_hours_month = total_group_hours_month + item.total_group_hours
     group_vols_month = group_hours_month.aggregate(count = Sum('num_volunteers'))
-    vols_combined = dict(Counter(total_vols_month) + Counter(group_vols_month))
-    hours_combined = Counter(total_vol_hours_month) + Counter({'sum': total_group_hours_month})
+    try:
+        vols_combined = dict(Counter(total_vols_month) + Counter(group_vols_month))
+    except TypeError:
+        vols_combined = dict(Counter(total_vols_month))
+    try:
+        hours_combined = Counter(total_vol_hours_month) + Counter({'sum': total_group_hours_month})
+    except TypeError:
+        hours_combined = Counter({'sum' : total_group_hours_month})
 
     return render(request, 'zoom_vols/volunteer_home.html', {'month': month, 'year' : year, 'vols_combined' : vols_combined, 'hours_combined' : hours_combined, 'volunteer_hours_month': volunteer_hours_month, 'total_vol_hours_month': total_vol_hours_month, 'total_vols_month' : total_vols_month, 'group_hours_month': group_hours_month, 'group_vols_month' : group_vols_month, 'total_group_hours_month' : total_group_hours_month})
 
