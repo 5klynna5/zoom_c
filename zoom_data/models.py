@@ -163,6 +163,32 @@ class Household(models.Model):
 	)
 	
 	unit_type = models.CharField(max_length = 14, choices=UNIT_CHOICES, blank=True, null=True)
+	
+	PREVIOUS_LOC_CHOICES = (
+		('SHELTER', 'Shelter'),
+		('DOUBLED_UP', 'Doubled Up'),
+		('STREET', 'Street Homeless'),
+		('TRANSITIONAL', 'Transitional Housing'),
+		('APT_OR_HOUSE', 'Apartment or House'),
+		('DV_SHELTER', 'DV Shelter'),
+	)
+
+	most_recent_location = models.CharField(max_length = 12, choices=PREVIOUS_LOC_CHOICES, blank=True, null=True)
+	shelter = models.CharField(max_length = 30, blank=True, null=True, help_text = 'If a shelter was most recent location, please record name of shelter here.')
+
+	Child_Support_income = models.BooleanField(default=False)
+	DWP_income = models.BooleanField(default=False)
+	Employment_income = models.BooleanField(default=False)
+	Financial_Aid_income = models.BooleanField(default=False)
+	MFIP_income = models.BooleanField(default=False)
+	MHV_income = models.BooleanField(default=False)
+	Public_Assistance_income = models.BooleanField(default=False)
+	RRH_income = models.BooleanField(default=False)
+	GRH_income = models.BooleanField(default=False)
+	Section_8_income = models.BooleanField(default=False)
+	SSI_income = models.BooleanField(default=False)
+	No_income = models.BooleanField(default=False)
+
 	exit_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
 	
 	@property
