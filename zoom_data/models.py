@@ -154,7 +154,7 @@ class Goal(models.Model):
 class Household(models.Model):
 	household_name = models.CharField(max_length = 20, blank=True, null=True)
 	unit_num = models.PositiveSmallIntegerField(blank=True, null=True)
-	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", default = '1999-09-09')
 
 	UNIT_CHOICES = (
 		('SH_ONE_BEDROOM', 'One Bedroom'),
@@ -265,7 +265,7 @@ class Child(models.Model):
 	)
 
 	ethnicity = models.CharField(max_length = 12, choices = ETHNICITY_CHOICES, blank=True, null=True)
-	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", blank=True, null=True)
+	move_in_date = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", default = '1999-09-09')
 
 	@property
 	def activities(self):
